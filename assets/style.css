@@ -412,7 +412,7 @@ nav ul li.active::before {
 ======================================= */
 
 #home {
-  background-image: url(https://pre00.deviantart.net/e55c/th/pre/f/2008/326/5/6/games_united_by_thedarkman.jpg);
+  background-image: url("cover.jpg");
   background-size: cover;
   background-attachment: fixed;
   background-position: center center;
