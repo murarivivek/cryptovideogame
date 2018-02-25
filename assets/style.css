@@ -1185,3 +1185,14 @@ background-color: #7f7f7f;
 .movie-content-header{
       padding-top: 5px;
 }
+#game-item{
+  padding: 15px !important;
+}
+.currowner{
+  overflow: hidden;
+
+}
+.row{
+  padding-left: 10px;
+  padding-right:10px;
+}
