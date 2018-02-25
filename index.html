@@ -20,8 +20,24 @@
 	<script type="text/javascript">
 	$(function() {
 	  $(document).ready(function() {
-	        App.init();
-	  });
+	        App.init(function(){
+	        	App.contracts.VideoGame.deployed().then(function(instance) {
+	        		videoGameInstance = instance;
+	        		for(id=0;id<1;){
+					videoGameInstance.getVideoGameDetails(id).then(function(result){
+						price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(10))+Number(0.000001);
+						console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+						$('.price:eq('+id+')').text(price);
+						$('.currowner:eq('+id+')').text(result[1]);
+						$('.card-title:eq('+id+')').text(result[0]);
+						$('.price:eq('+id+')').attr("data-trueval",price);
+						id++;
+					});
+				}
+	        	});
+
+	  	});
+	});
 	});
 	</script>
 
@@ -124,22 +140,23 @@
 			</button>
 		</div>
 		<div class="row mixit" id="container">
-			<div id="meme-item" class="col-3">
-      				<div class="movie-card">
-					<div class="movie-content-header text-center">
-				        	<h3 class="card-title movie-title">DiCaprio Toast</h3>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
 
   					</div>
-					<div class=" movie-header">
-						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="meme-img">
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
 					</div>
-                			<div class="movie-content">
-                  				<div class="movie-info">
+                			<div class="game-content">
+                  				<div class="game-info">
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="0.0819735716">
-                                					0.081973
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
                                 				</span>
                                   			</div>
                 				</div>
@@ -150,28 +167,29 @@
 
           					</div>
           					<div class="info-section">
-                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;"> 0x360810c61beb4ec6da9236ce4e24a02cfb3ba933 </span>
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
                                     				
                                   		</div>
 	        			</div>
       				</div>
     			</div>
-    			<div id="meme-item" class="col-3">
-      				<div class="movie-card">
-					<div class="movie-content-header text-center">
-				        	<h3 class="card-title movie-title">DiCaprio Toast</h3>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
 
   					</div>
-					<div class=" movie-header">
-						<img src="https://cryptomemes.lol/images/memes/0054decaprio-toast.gif" class="meme-img">
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
 					</div>
-                			<div class="movie-content">
-                  				<div class="movie-info">
+                			<div class="game-content">
+                  				<div class="game-info">
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="0.0819735716">
-                                					0.081973
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
                                 				</span>
                                   			</div>
                 				</div>
@@ -182,28 +200,29 @@
 
           					</div>
           					<div class="info-section">
-                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;"> 0x360810c61beb4ec6da9236ce4e24a02cfb3ba933 </span>
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
                                     				
                                   		</div>
 	        			</div>
       				</div>
     			</div>
-    			<div id="meme-item" class="col-3">
-      				<div class="movie-card">
-					<div class="movie-content-header text-center">
-				        	<h3 class="card-title movie-title">DiCaprio Toast</h3>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
 
   					</div>
-					<div class=" movie-header">
-						<img src="https://cryptomemes.lol/images/memes/0054decaprio-toast.gif" class="meme-img">
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
 					</div>
-                			<div class="movie-content">
-                  				<div class="movie-info">
+                			<div class="game-content">
+                  				<div class="game-info">
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="0.0819735716">
-                                					0.081973
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
                                 				</span>
                                   			</div>
                 				</div>
@@ -214,28 +233,29 @@
 
           					</div>
           					<div class="info-section">
-                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;"> 0x360810c61beb4ec6da9236ce4e24a02cfb3ba933 </span>
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
                                     				
                                   		</div>
 	        			</div>
       				</div>
     			</div>
-			<div id="meme-item" class="col-3">
-      				<div class="movie-card">
-					<div class="movie-content-header text-center">
-				        	<h3 class="card-title movie-title">DiCaprio Toast</h3>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
 
   					</div>
-					<div class=" movie-header">
-						<img src="https://cryptomemes.lol/images/memes/0054decaprio-toast.gif" class="meme-img">
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
 					</div>
-                			<div class="movie-content">
-                  				<div class="movie-info">
+                			<div class="game-content">
+                  				<div class="game-info">
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="0.0819735716">
-                                					0.081973
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
                                 				</span>
                                   			</div>
                 				</div>
@@ -246,13 +266,412 @@
 
           					</div>
           					<div class="info-section">
-                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;"> 0x360810c61beb4ec6da9236ce4e24a02cfb3ba933 </span>
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
                                     				
                                   		</div>
 	        			</div>
       				</div>
     			</div>
-			
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="https://fthmb.tqn.com/tEcEVBP7K3lBAUL5A-_r0DMwhG0=/400x400/2212383-box_gtasa-56a9c46e5f9b58b7d0fed169.png" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.8em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+
+
+    			
 		</div>
 	</section>
 

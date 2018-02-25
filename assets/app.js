@@ -25,8 +25,8 @@ App = {
   initContract: function(finalCallBack) {
     $.getJSON('./assets/CryptoVideoGames.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
-      var MemeTokenArtifact = data;
-      App.contracts.VideoGame = TruffleContract(MemeTokenArtifact);
+      var videoGameTokenArtifact = data;
+      App.contracts.VideoGame = TruffleContract(videoGameTokenArtifact);
 
       // Set the provider for our contract
       App.contracts.VideoGame.setProvider(App.web3Provider);
