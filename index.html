@@ -35,6 +35,7 @@
 		$('.game-img:eq(13)').attr("src",'./kotaku/13.jpg');
 		$('.game-img:eq(14)').attr("src",'./kotaku/14.jpg');
 		$('.game-img:eq(15)').attr("src",'./kotaku/15.png');
+		$('.game-img:eq(16)').attr("src",'./kotaku/16.png');
 	  $(document).ready(function() {
 	        App.init(function(){
 	        	App.contracts.VideoGame.deployed().then(function(instance) {
@@ -54,6 +55,7 @@
 	        		fillGameDetails(13, instance);
 	        		fillGameDetails(14, instance);
 	        		fillGameDetails(15, instance);
+	        		fillGameDetails(16, instance);
 	        	});
 	        	if(App.metamaskInstalled){
 			      web3.eth.getAccounts(function(error, accounts) {
@@ -703,7 +705,39 @@
 	        			</div>
       				</div>
     			</div>
+				
+			<div id="game-item" class="col-3">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
 
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
 
 
     			
