@@ -39,17 +39,52 @@
 	        		fillGameDetails(14, instance);
 	        		fillGameDetails(15, instance);
 	        	});
+	        	if(App.metamaskInstalled){
+			      web3.eth.getAccounts(function(error, accounts) {
+			        var account = accounts[0];
+			        $('#address').text(account.substring(0,8));
+			        $('#address').removeClass('not-connected');
+			        $('#address').addClass('connected');
+			      });
+			    }else{
+			      $('#address').text('Not Connected');
+			      $('#address').removeClass('connected');
+			      $('#address').addClass('not-connected');
+			    }
+			    $(".btn-buy").click(function(event){
+        			var price = Number($(event.target).attr('data-id'));
+        			var gameId = parseInt($(event.target).attr('game-id'));
+        			web3.eth.getAccounts(function(error, accounts) {
+				      if (error) {
+				        console.log(error);
+				      }
 
+				      var account = accounts[0];
+
+				      App.contracts.VideoGame.deployed().then(function(instance) {
+				        memeInstance = instance;
+				        return memeInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+				          	console.log("transaction submitted");
+				          	return;
+				        }).catch(function(err){
+				          console.log("transaction failed");
+				          return;
+				        });
+				      })
+				    });
+    			});
 	  	});
 	});
 	  function fillGameDetails(id, videoGameInstance){
 	  	videoGameInstance.getVideoGameDetails(id).then(function(result){
-							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(10))+Number(0.000001);
+							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
 							console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
 							$('.price:eq('+id+')').text(price);
 							$('.currowner:eq('+id+')').text(result[1]);
 							$('.card-title:eq('+id+')').text(result[0]);
 							$('.price:eq('+id+')').attr("data-trueval",price);
+							$('.btn-buy:eq('+id+')').attr("data-id",price);
+							$('.btn-buy:eq('+id+')').attr("game-id",id);
 						});
 	  }
 	});
@@ -90,7 +125,7 @@
 						<a class="nav-link" href="https://discord.gg/tf332">Discord</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="">Not Connected</a>
+						<a class="nav-link not-connected" href="" id="address">Not Connected</a>
 					</li>
 				</ul>
 			</div>

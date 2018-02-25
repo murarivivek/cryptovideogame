@@ -395,6 +395,14 @@ nav ul li.active::before {
   color:#fff!important;
 }
 
+.connected{
+  color:green!important;
+}
+
+.not-connected{
+  color:red!important;
+}
+
 /* ====================================
            end navbar section
 ======================================= */
@@ -1180,6 +1188,7 @@ footer .copyright p a:focus {
 }
 .btn-buy{
 background-color: #7f7f7f;
+cursor: pointer; 
 }
 
 .movie-content-header{
