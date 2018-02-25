@@ -22,22 +22,36 @@
 	  $(document).ready(function() {
 	        App.init(function(){
 	        	App.contracts.VideoGame.deployed().then(function(instance) {
-	        		videoGameInstance = instance;
-	        		for(id=0;id<1;){
-					videoGameInstance.getVideoGameDetails(id).then(function(result){
-						price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(10))+Number(0.000001);
-						console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
-						$('.price:eq('+id+')').text(price);
-						$('.currowner:eq('+id+')').text(result[1]);
-						$('.card-title:eq('+id+')').text(result[0]);
-						$('.price:eq('+id+')').attr("data-trueval",price);
-						id++;
-					});
-				}
+	        		fillGameDetails(0, instance);
+	        		fillGameDetails(1, instance);
+	        		fillGameDetails(2, instance);
+	        		fillGameDetails(3, instance);
+	        		fillGameDetails(4, instance);
+	        		fillGameDetails(5, instance);
+	        		fillGameDetails(6, instance);
+	        		fillGameDetails(7, instance);
+	        		fillGameDetails(8, instance);
+	        		fillGameDetails(9, instance);
+	        		fillGameDetails(10, instance);
+	        		fillGameDetails(11, instance);
+	        		fillGameDetails(12, instance);
+	        		fillGameDetails(13, instance);
+	        		fillGameDetails(14, instance);
+	        		fillGameDetails(15, instance);
 	        	});
 
 	  	});
 	});
+	  function fillGameDetails(id, videoGameInstance){
+	  	videoGameInstance.getVideoGameDetails(id).then(function(result){
+							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(10))+Number(0.000001);
+							console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+							$('.price:eq('+id+')').text(price);
+							$('.currowner:eq('+id+')').text(result[1]);
+							$('.card-title:eq('+id+')').text(result[0]);
+							$('.price:eq('+id+')').attr("data-trueval",price);
+						});
+	  }
 	});
 	</script>
 
