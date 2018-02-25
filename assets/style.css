@@ -258,7 +258,7 @@ nav {
   -o-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-  background-color: #FFF !important
+  background-color: #000 !important
 }
 
 nav ul li {
@@ -390,6 +390,9 @@ nav ul li.active::before {
     text-align: center;
   }
 
+}
+.nav-link{
+  color:#fff;
 }
 
 /* ====================================
