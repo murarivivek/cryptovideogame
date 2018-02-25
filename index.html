@@ -78,8 +78,8 @@
 				      var account = accounts[0];
 
 				      App.contracts.VideoGame.deployed().then(function(instance) {
-				        memeInstance = instance;
-				        return memeInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+				        gameInstance = instance;
+				        return gameInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
 				          	console.log("transaction submitted");
 				          	return;
 				        }).catch(function(err){
