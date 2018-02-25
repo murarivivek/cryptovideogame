@@ -1,0 +1,1184 @@
+/*
+Template Name: Meruem | Personal Portfolio HTML5 Template
+Author: Mohamed Elmdary
+Author URI: https://themeforest.net/user/mohamedelmdary
+Description: Meruem | Personal Portfolio HTML5 Template
+Version: 1.0
+Tags: bootstrap, clean, creative, cv, freelancer, gallery, html5, one page, personal, portfolio, responsive, resume, simple, vcard
+*/
+/*
+Style Index
+==================================================
+    1. Basic Setup
+    2. Loading Page
+    3. Navigation Bar
+    4. Home Section
+    5. About Section
+    6. Statistics Section
+    7. Portfolio Section
+    8. Clients Section
+    9. Skills Section
+    10. Contact Section
+    11. Footer Section
+*/
+
+/* ====================================
+        1. Start Basic Setup
+======================================= */
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,900');
+/* setup body */
+
+body {
+  padding-top: 73px;
+}
+
+/* setup media buttons */
+
+.media {
+  margin-top: 30px;
+  display: inline-block;
+}
+
+.media > a {
+  display: inline-block;
+}
+
+.media > a > i {
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  width: 40px;
+  height: 40px;
+  color: #333;
+  background-color: #FFF;
+  border-radius: 50%;
+  line-height: 40px;
+  margin: 0 5px;
+  font-size: 20px;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.media > a > i::after {
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 2px;
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  background-color: #333;
+  z-index: -1;
+}
+
+.media > a > i:hover {
+  color: #fff;
+}
+
+.media > a > i:hover::after {
+  top: 2px;
+}
+
+/* setup heading in each section */
+
+.heading {
+  margin: 0 0 30px;
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: bold;
+  position: relative;
+  font-size: 42px;
+  padding-bottom: 5px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.heading + p {
+  margin: 10px 20% 35px;
+  width: 60%;
+}
+
+@media (max-width: 767px) {
+
+  .heading {
+    font-size: 35px
+  }
+
+  .heading + p {
+    margin: 10px 10% 35px;
+    width: 80%;
+  }
+
+}
+
+/* setup toTop button */
+
+.toTop{
+  display: none
+}
+
+.toTop a > i {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 40px;
+  color: #FFF;
+  background-color: #333;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+
+/* ====================================
+          end Basic Setup
+======================================= */
+
+/* ====================================
+        2. start loading page 
+======================================= */
+
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 9999;
+  background-color: #FFF;
+}
+
+#loading .sk-cube-grid {
+  width: 50px;
+  height: 50px;
+  margin: auto;
+  margin-top: calc(50vh - 25px);
+}
+
+#loading .sk-cube-grid .sk-cube {
+  width: 33%;
+  height: 33%;
+  background-color: #333;
+  float: left;
+  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+  animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+}
+
+#loading .sk-cube-grid .sk-cube1 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+#loading .sk-cube-grid .sk-cube2 {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+
+#loading .sk-cube-grid .sk-cube3 {
+  -webkit-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+#loading .sk-cube-grid .sk-cube4 {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+
+#loading .sk-cube-grid .sk-cube5 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+#loading .sk-cube-grid .sk-cube6 {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+
+#loading .sk-cube-grid .sk-cube7 {
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+
+#loading .sk-cube-grid .sk-cube8 {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+
+#loading .sk-cube-grid .sk-cube9 {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+    transform: scale3D(1, 1, 1);
+  }
+
+  35% {
+    -webkit-transform: scale3D(0, 0, 1);
+    transform: scale3D(0, 0, 1);
+  }
+
+}
+@keyframes sk-cubeGridScaleDelay {
+
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+    transform: scale3D(1, 1, 1);
+  }
+
+  35% {
+    -webkit-transform: scale3D(0, 0, 1);
+    transform: scale3D(0, 0, 1);
+  }
+
+}
+
+/* ====================================
+          end loading page 
+======================================= */
+
+/* ====================================
+        3. start navbar section
+======================================= */
+
+nav {
+  padding: 15px 10px !important;
+  -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  background-color: #FFF !important
+}
+
+nav ul li {
+  text-transform: uppercase;
+  font-weight: 500;
+  position: relative;
+  margin: 0 5px;
+}
+
+nav ul li:last-of-type {
+  margin-right:0 !important
+}
+
+nav .navbar-brand {
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+nav .navbar-brand:first-letter {
+  font-size: 22px;
+  font-weight: bold;
+  border-bottom: 4px solid #333;
+}
+
+nav ul li.active::before {
+  -webkit-transform: rotateY(0);
+  -moz-transform: rotateY(0);
+  -o-transform: rotateY(0);
+  -ms-transform: rotateY(0);
+  transform: rotateY(0);
+}
+
+.navbar-toggler {
+  border: none;
+  position: relative;
+  height: 40px;
+  width: 40px;
+  top: 11px;
+  box-shadow: none;
+  left: -15px;
+}
+
+.navbar-toggler:focus, .navbar-toggler:hover {
+  outline: none;
+}
+
+.navbar-toggler > span {
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  height: 3px;
+  width: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform: rotate(0);
+  -moz-transform: rotate(0);
+  -o-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
+  background-color: #333;
+  cursor: pointer;
+}
+
+.navbar-toggler > span:nth-of-type(2) {
+  top: 10px;
+}
+
+.navbar-toggler > span:last-of-type {
+  top: 20px;
+}
+
+.navbar-toggler[aria-expanded="true"] > span:first-of-type {
+  top: 10px;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.navbar-toggler[aria-expanded="true"] > span:nth-of-type(2) {
+  opacity: 0;
+}
+
+.navbar-toggler[aria-expanded="true"] > span:last-of-type {
+  top: 10px;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+/* show underline in xl-lg screen only */
+
+@media (min-width: 992px) {
+
+  nav ul li::before {
+    transition: all .4s linear;
+    position: absolute;
+    bottom: 0;
+    left: 8px;
+    width: calc(100% - 16px);
+    content: "";
+    height: 3px;
+    background-color: #34495e;
+    -webkit-transform: rotateY(90deg);
+    -moz-transform: rotateY(90deg);
+    -o-transform: rotateY(90deg);
+    -ms-transform: rotateY(90deg);
+    transform: rotateY(90deg);
+  }
+
+  nav ul li:hover::before {
+    -webkit-transform: rotateY(0);
+    -moz-transform: rotateY(0);
+    -o-transform: rotateY(0);
+    -ms-transform: rotateY(0);
+    transform: rotateY(0);
+  }
+
+}
+@media (max-width: 991px) {
+
+  nav ul li {
+    text-align: center;
+  }
+
+}
+
+/* ====================================
+           end navbar section
+======================================= */
+
+/* ====================================
+        4. start home section
+======================================= */
+
+#home {
+  background-image: url(../images/home.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-position: top center;
+  min-height: 620px;
+  width: 100%;
+  position: relative;
+}
+
+#home .cover {
+  padding: 30px 0;
+  min-height: 620px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#home .cover .next-section {
+  position: absolute;
+  bottom: 100px;
+  display: block;
+  left: calc(50% - 35px);
+}
+
+#home .cover .next-section > i {
+  -webkit-transition: all 0.4s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -ms-transition: all 0.4s linear;
+  transition: all 0.4s linear;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 70px;
+  color: #FFF;
+  height: 30px;
+  width: 50px;
+  line-height: 30px;
+}
+
+#home .cover .next-section > i:hover + i {
+  opacity: 1;
+}
+
+#home .cover .next-section > i:last-of-type {
+  opacity: 0;
+  top: 15px;
+  color: #e4f1ff;
+  z-index: 2;
+}
+
+#home .cover .next-section i:first-of-type {
+  z-index: 5;
+}
+
+#home .cover .container > div {
+  -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: 150px;
+  padding: 25px 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  top: 120px;
+}
+
+#home .cover .container > div p {
+  margin: 0;
+}
+
+#home .cover .container > div p:first-of-type {
+  font-size: 20px;
+  color: #FFF;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+#home .cover .container > div p:first-of-type span {
+  font-weight: 700;
+}
+
+#home .cover .container > div h1 {
+  margin: 20px 0;
+  font-size: 65px;
+  color: #FFF;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#home .cover .container > div p:last-of-type {
+  font-size: 20px;
+  color: #FFF;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+}
+
+#home .cover .container > div p:last-of-type > span {
+  position: relative;
+  top: 0;
+  -webkit-transition: all 0.31s linear;
+  -moz-transition: all 0.31s linear;
+  -o-transition: all 0.31s linear;
+  -ms-transition: all 0.31s linear;
+  transition: all 0.31s linear;
+}
+
+.left {
+  top: -10px !important;
+}
+
+@media (max-width: 767px) {
+
+  #home .cover .container > div h1 {
+    font-size: 50px
+  }
+
+}
+
+/* ====================================
+        end home section
+======================================= */
+
+/* ====================================
+        5. start about section
+======================================= */
+
+#about {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+#about .row *[class*="col-"] {
+  margin-bottom: 35px;
+}
+
+#about .row *[class*="col-"] > div {
+  -webkit-transition: all 0.4s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -ms-transition: all 0.4s linear;
+  transition: all 0.4s linear;
+  position: relative;
+  padding: 15px 20px;
+}
+
+#about .row *[class*="col-"] > div i {
+  font-size: 50px;
+  display: block;
+}
+
+#about .row *[class*="col-"] > div h4 {
+  margin: 25px 0;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+#about .row *[class*="col-"] > div .border-x::after,
+#about .row *[class*="col-"] > div .border-x::before, 
+#about .row *[class*="col-"] > div::after,
+ #about .row *[class*="col-"] > div::before {
+  -webkit-transition: all 0.4s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -ms-transition: all 0.4s linear;
+  transition: all 0.4s linear;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 20px;
+  background-color: #aaa;
+}
+
+#about .row *[class*="col-"] > div .border-x::before,
+ #about .row *[class*="col-"] > div::before {
+  height: 20px;
+  width: 1px;
+}
+
+#about .row *[class*="col-"] > div .border-x::after,
+#about .row *[class*="col-"] > div .border-x::before {
+  top: auto;
+  bottom: 0;
+  right: 0;
+  left: auto;
+}
+
+#about .row *[class*="col-"] > div:hover {
+  -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+}
+
+#about .row *[class*="col-"] > div:hover .border-x::before,
+ #about .row *[class*="col-"] > div:hover::before {
+  height: 100%;
+}
+
+#about .row *[class*="col-"] > div:hover .border-x::after,
+ #about .row *[class*="col-"] > div:hover::after {
+  width: 100%;
+}
+
+/* ====================================
+           end about section
+======================================= */
+
+/* ====================================
+        6. start statistics section
+======================================= */
+
+#statistics {
+  background-image: url("../images/statistics.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 350px;
+}
+
+#statistics .cover {
+  padding: 80px 0;
+  min-height: 350px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#statistics .cover h2 {
+  color: #FFF;
+  border-bottom-color: #FFF;
+}
+
+#statistics .cover .row div[class*="col-"] {
+  margin: 15px 0 20px;
+}
+
+#statistics .cover .row div[class*="col-"]:last-of-type {
+  margin-bottom:0
+}
+
+#statistics .cover .row div[class*="col-"] i {
+  position: relative;
+  font-size: 50px;
+  color: #FFF;
+  top: 3px;
+  margin-right: 10px;
+  right: 1px
+}
+
+#statistics .cover .row div[class*="col-"] h4 {
+  text-transform: uppercase;
+  color: #FFF;
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  margin: 0
+}
+
+#statistics .cover .row div[class*="col-"] .timer {
+  font-size: 45px;
+  font-weight: bold;
+  color: #FFF;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.bars {
+  margin: 20px;
+  width: calc(100% - 30px);
+  height: 8px;
+  position: relative;
+  
+}
+
+.circles {
+  position: relative;
+  height: 120px;
+  width: 120px;
+  margin: 20px auto;
+}
+
+/* ====================================
+           end statistics section
+======================================= */
+
+/* ====================================
+        7. start portfolio section
+======================================= */
+
+#portfolio {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+#portfolio .row {
+  margin: 0;
+}
+
+#portfolio .row *[class*="col-"] {
+  position: relative;
+  top: 0;
+  left: 0;
+  padding: 5px;
+  overflow: hidden;
+}
+
+#portfolio .row *[class*="col-"] a {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#portfolio .row *[class*="col-"] a > img {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+#portfolio .row *[class*="col-"] a::before,
+ #portfolio .row *[class*="col-"] a::after {
+  -webkit-transition: all 0.4s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -ms-transition: all 0.4s linear;
+  transition: all 0.4s linear;
+  content: "\e63e";
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  top: calc(50% - 40px);
+  left: calc(50% - 40px);
+  font-size: 64px;
+  line-height: 80px;
+  text-align: center;
+  font-family: 'Pe-icon-7-stroke';
+  color: transparent;
+}
+
+#portfolio .row *[class*="col-"] a::before {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  content: "";
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+#portfolio .row *[class*="col-"] a:hover::after {
+  color: #FFF;
+}
+
+#portfolio .row *[class*="col-"] a:hover::before {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#portfolio .btn-group {
+  display: block !important;
+  margin: 30px 0;
+}
+
+#portfolio .btn-group > button {
+  margin: 0 5px;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  -webkit-transition: all 0.4s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -ms-transition: all 0.4s linear;
+  transition: all 0.4s linear;
+  border: none;
+  background-color: #333;
+  color: #FFF;
+}
+
+#portfolio .btn-group .active {
+  color: #333;
+  background-color: #FFF;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+@media (min-width: 992px) {
+
+  .custom {
+    -webkit-flex: 0 0 calc(100% / 5);
+    -moz-flex: 0 0 calc(100% / 5);
+    -o-flex: 0 0 calc(100% / 5);
+    -ms-flex: 0 0 calc(100% / 5);
+    flex: 0 0 calc(100% / 5);
+  }
+
+}
+@media (max-width: 767px) {
+
+  .custom {
+    -webkit-flex: 0 0 calc(100% / 3);
+    -moz-flex: 0 0 calc(100% / 3);
+    -o-flex: 0 0 calc(100% / 3);
+    -ms-flex: 0 0 calc(100% / 3);
+    flex: 0 0 calc(100% / 3);
+  }
+
+}
+@media (max-width: 500px) {
+
+  .custom {
+    -webkit-flex: 0 0 50%;
+    -moz-flex: 0 0 50%;
+    -o-flex: 0 0 50%;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+  }
+
+}
+
+.scale-0 {
+  -webkit-transform: scale(0) !important;
+  -moz-transform: scale(0) !important;
+  -o-transform: scale(0) !important;
+  -ms-transform: scale(0) !important;
+  transform: scale(0) !important;
+}
+
+/* ====================================
+           end portfolio section
+======================================= */
+
+/* ====================================
+        8. start clients section
+======================================= */
+
+#clients {
+  background-image: url("../images/subscribe.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 350px;
+}
+
+#clients .cover {
+  min-height: 350px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+#clients .cover h2 {
+  margin-bottom: 50px;
+  color: #fff;
+  border-bottom-color: #FFF;
+}
+
+#clients .cover .row div[class*="col-"] > div {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 15px 10px;
+  height: 122px;
+  margin-bottom: 30px;
+}
+
+#clients .cover .row div[class*="col-"] > div:hover {
+  background-color: #FFF;
+}
+
+@media (min-width: 992px) {
+
+  #clients .row div[class*="col-"] {
+    -webkit-flex: 0 0 calc(100% / 6);
+    -moz-flex: 0 0 calc(100% / 6);
+    -ms-flex: 0 0 calc(100% / 6);
+    -o-flex: 0 0 calc(100% / 6);
+    flex: 0 0 calc(100% / 6);
+  }
+
+}
+@media (min-width: 768px) and (max-width: 991px) {
+
+  #clients .row div[class*="col-"] {
+    -webkit-flex: 0 0 25%;
+    -moz-flex: 0 0 25%;
+    -ms-flex: 0 0 25%;
+    -o-flex: 0 0 25%;
+    flex: 0 0 25%;
+  }
+
+}
+
+/* ====================================
+           end clients section
+======================================= */
+
+/* ====================================
+        9. start skills section
+======================================= */
+
+#skills {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+#skills .container h4 {
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-top: 25px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#skills .container div[class*="col-"] {
+  margin-bottom: 25px;
+}
+
+#skills .container div[class*="col-"] span {
+  margin-left: 20px;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: block;
+  margin-bottom: -25px
+}
+
+#skills .container .circles + span {
+  margin: 0 !important;
+}
+
+/* ====================================
+           end skills section
+======================================= */
+
+/* ====================================
+        10. start contact section
+======================================= */
+
+#contact {
+  background-image: url("../images/contact.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  min-height: 350px;
+}
+
+#contact .cover {
+  min-height: 350px;
+  padding: 80px 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#contact .cover h2 {
+  color: #FFF;
+  border-bottom-color: #FFF;
+}
+
+#contact .cover .contact-ways > div[class*="col-"] {
+  margin-bottom: 30px;
+}
+
+#contact .cover .contact-ways > div[class*="col-"] > div {
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  color: #FFF;
+  padding: 20px;
+}
+
+#contact .cover .contact-ways > div[class*="col-"] > div > div {
+  padding: 10px;
+  border: 1px solid #aaa;
+}
+
+#contact .cover .contact-ways > div[class*="col-"] > div > div i {
+  font-size: 50px;
+}
+
+#contact .cover .contact-ways > div[class*="col-"] > div > div h5 {
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  margin: 10px auto
+}
+
+#contact .cover .contact-ways > div[class*="col-"] p,
+#contact .cover .contact-ways > div[class*="col-"] a {
+  color: #FFF;
+  font-family: 'Roboto', sans-serif;
+  margin: 0
+}
+
+/* ====================================
+           end contact section
+======================================= */
+
+/* ====================================
+        11. start footer section
+======================================= */
+
+footer .links {
+  padding: 80px 0;
+  background-color: #212121;
+  color: #FFF;
+}
+
+footer .links h5 {
+  font-size: 18px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #FFF;
+  padding-bottom: 3px;
+  display: inline-block;
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold
+}
+
+footer .links p {
+  color: #ccc;
+}
+
+footer .links .custom-btn {
+  border: none;
+  background: #FFF;
+  color: #333;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-weight: 400;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+footer .links .custom-btn:hover {
+  color: #FFF;
+  background-color: #000;
+}
+
+footer .links a:hover,
+footer .links a:focus,
+footer .links a {
+  color: #FFF;
+  text-decoration: none;
+  position: relative;
+}
+
+footer .links li:not(:first-of-type) {
+  margin: 5px 0
+}
+
+footer .links a::after {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: white;
+  content:"";
+  -webkit-transition: all 0.4s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -ms-transition: all 0.4s linear;
+  transition: all 0.4s linear;
+}
+
+footer .links a:hover::after,
+footer .links a:focus::after {
+  width: 100%
+}
+
+footer .links a > i {
+  position: relative;
+  top: 3px;
+  font-size: 20px;
+  margin-left: -7px
+}
+
+.footer-gallery .row {
+  margin: 0 !important
+}
+
+footer .links .footer-select > .row > div {
+  margin-bottom: 30px;
+}
+
+footer .links .footer-gallery div[class*="col-"] {
+  padding: 3px;
+}
+
+footer .links .footer-gallery div[class*="col-"] img {
+  -webkit-transition: all 0.4s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -ms-transition: all 0.4s linear;
+  transition: all 0.4s linear;
+  display: block;
+  width: 100%;
+  min-height: 90px;
+  height: 100%;
+  filter: grayscale(0.8);
+}
+
+footer .links .footer-gallery div[class*="col-"] img:hover {
+  filter: grayscale(0);
+}
+
+footer .copyright {
+  background-color: #000;
+  color: #FFF;
+  padding: 20px 0;
+}
+
+footer .copyright p {
+  margin: 0;
+  font-weight: 500;
+}
+
+footer .copyright p a,
+footer .copyright p a:hover,
+footer .copyright p a:focus {
+  color: dodgerblue;
+  font-weight: bold;
+  text-decoration: none
+}
+
+/* ====================================
+          end footer section
+======================================= */
+
+
+.movie-card {
+  background: #fff;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
+  width: 100%;
+/*  max-width: 315px; */
+  padding-left:0px;
+  padding-right:0px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top:20px;
+}
+.movie-header {
+  padding: 0;
+  margin: 0;
+  margin-bottom:6px;
+  margin-top:6px;
+ /* max-height: 250px;
+  max-width: 250px; */
+  display: block;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.meme-img{
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
+}
+.buy-button{
+  width:80%;
+  margin: auto;
+}
+.btn-buy{
+background-color: #7f7f7f;
+}
+
+.movie-content-header{
+      padding-top: 5px;
+}
