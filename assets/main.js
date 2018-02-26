@@ -42,7 +42,7 @@ $(function () {
 
     /*end layout*/
 
-    /* start coutTo plugin */
+    /* start coutTo plugin 
 
     var isCounted = false;
     function countTo() {
@@ -112,7 +112,7 @@ $(function () {
         
     }
 
-    function goBars() {
+/*    function goBars() {
         if (!barsCreated && $window.scrollTop() >= ($("#bars").offset().top - $window.height() / 1.5)) {
             bars.each(function () {
                 var barx = $(this).data("value"),
@@ -164,7 +164,7 @@ $(function () {
         bar.animate($value);  // Number from 0.0 to 1.
     }
 
-    function goCircles() {
+ /*   function goCircles() {
         if (!circlesCreated && $window.scrollTop() >= ($("#circles").offset().top - $window.height() / 1.5)){
             $circles.each(function () {
                 var circlex = $(this).data("value"),
@@ -181,7 +181,7 @@ $(function () {
 
     /* end skills section */
 
-    /* start smooth scroll */
+    /* start smooth scroll 
 
     var navItems = $(".nav-item"),
         toTop = $(".toTop");

@@ -101,6 +101,7 @@
 							$('.currowner:eq('+id+')').text(result[1]);
 							$('.card-title:eq('+id+')').text(result[0]);
 							$('.price:eq('+id+')').attr("data-trueval",price);
+							$('.mix:eq('+id+')').attr("data-order",price);
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
 							$('.btn-buy:eq('+id+')').attr("game-id",id);
 						});
@@ -176,9 +177,19 @@
 			Buy Video Games
 		</h2>
 		<br>
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<!--button type="button" class="btn active mixitup-control-active" data-filter="all"> All
+			</button-->
+			<button type="button" class="btn" data-sort="order:descending"> High to Low
+			</button>
+			<button type="button" class="btn" data-sort="order:asc"> Low to High
+			</button>
+			<button type="button" class="btn" data-sort="random"> Random
+			</button>
+		</div>
 		<div class="row mixit" id="container">
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -211,7 +222,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -244,7 +255,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -277,7 +288,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -310,7 +321,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -343,7 +354,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -376,7 +387,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -409,7 +420,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -442,7 +453,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -475,7 +486,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -508,7 +519,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -541,7 +552,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -574,7 +585,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -607,7 +618,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -640,7 +651,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -673,7 +684,7 @@
       				</div>
     			</div>
 
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
@@ -706,7 +717,7 @@
       				</div>
     			</div>
 				
-			<div id="game-item" class="col-3">
+			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
 				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
