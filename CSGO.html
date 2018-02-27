@@ -94,7 +94,8 @@
 	  function fillGameItemDetails(id, videoGameInstance){
 	  	videoGameInstance.getVideoGameItemDetails(id).then(function(result){
 							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
-							console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+							console.log(JSON.stringify(result) + " " +id);
 							id= id+1;
 							$('.price:eq('+id+')').text(price);
 							$('.currowner:eq('+id+')').text(result[1]);
@@ -102,7 +103,7 @@
 							$('.price:eq('+id+')').attr("data-trueval",price);
 							$('.mix:eq('+id+')').attr("data-order",price);
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
-							$('.btn-buy:eq('+id+')').attr("game-id",id);
+							$('.btn-buy:eq('+id+')').attr("game-id",id-1);
 						});
 	  }
 	  function fillGameDetails(id, videoGameInstance){
