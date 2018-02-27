@@ -30,13 +30,16 @@
 	  $(document).ready(function() {
 	        App.init(function(){
 	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
-	        		fillGameDetails(7, instance);
-	        		fillGameDetails(1, instance);
-	        		fillGameDetails(2, instance);
-	        		fillGameDetails(3, instance);
-	        		fillGameDetails(4, instance);
-	        		fillGameDetails(5, instance);
-	        		fillGameDetails(6, instance);
+	        		fillGameItemDetails(0, instance);
+	        		fillGameItemDetails(1, instance);
+	        		fillGameItemDetails(2, instance);
+	        		fillGameItemDetails(3, instance);
+	        		fillGameItemDetails(4, instance);
+	        		fillGameItemDetails(5, instance);
+	        		fillGameItemDetails(6, instance);
+	        		App.contracts.VideoGame.deployed().then(function(instance){
+	        			fillGameDetails(3, instance);
+	        		})
 
 	        	});
 	        	if(App.metamaskInstalled){
@@ -61,7 +64,19 @@
 
 				      var account = accounts[0];
 
-				      App.contracts.VideoGameItem.deployed().then(function(instance) {
+				      if($(event.target).attr('id') == 'gameButton'){
+				      	App.contracts.VideoGame.deployed().then(function(instance) {
+				        gameInstance = instance;
+				        return gameInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+				          	console.log("transaction submitted");
+				          	return;
+				        }).catch(function(err){
+				          console.log("transaction failed");
+				          return;
+				        });
+				      })
+				      }else{
+				      	App.contracts.VideoGameItem.deployed().then(function(instance) {
 				        gameInstance = instance;
 				        return gameInstance.purchaseVideoGameItem(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
 				          	console.log("transaction submitted");
@@ -71,14 +86,16 @@
 				          return;
 				        });
 				      })
+				      }				      
 				    });
     			});
 	  	});
 	});
-	  function fillGameDetails(id, videoGameInstance){
+	  function fillGameItemDetails(id, videoGameInstance){
 	  	videoGameInstance.getVideoGameItemDetails(id).then(function(result){
 							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
 							console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+							id= id+1;
 							$('.price:eq('+id+')').text(price);
 							$('.currowner:eq('+id+')').text(result[1]);
 							$('.card-title:eq('+id+')').text(result[0]);
@@ -86,6 +103,19 @@
 							$('.mix:eq('+id+')').attr("data-order",price);
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
 							$('.btn-buy:eq('+id+')').attr("game-id",id);
+						});
+	  }
+	  function fillGameDetails(id, videoGameInstance){
+	  	videoGameInstance.getVideoGameDetails(id).then(function(result){
+							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
+							console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+							$('.price:eq('+0+')').text(price);
+							$('.currowner:eq('+0+')').text(result[1]);
+							$('.card-title:eq('+0+')').text(result[0]);
+							$('.price:eq('+0+')').attr("data-trueval",price);
+							$('.mix:eq('+0+')').attr("data-order",price);
+							$('.btn-buy:eq('+0+')').attr("data-id",price);
+							$('.btn-buy:eq('+0+')').attr("game-id",id);
 						});
 	  }
 	});
@@ -184,7 +214,7 @@
 			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Counter Strike</h3>
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
 
   					</div>
 					<div class=" card-header">
@@ -195,17 +225,17 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="0.2">0.2</span>
+                                				<span class="price" data-trueval="Game Price">Game Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
-                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
                         					Own the Game
                         				</button>
 
           					</div>
           					<div class="info-section">
-                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner">0xdcc147f013791e324628113e064941544cc3b8e6</span>
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
                                     				
                                   		</div>
 	        			</div>
