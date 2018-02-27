@@ -101,7 +101,7 @@
 							$('.currowner:eq('+id+')').text(result[1]);
 							$('.card-title:eq('+id+')').text(result[0]);
 							$('.price:eq('+id+')').attr("data-trueval",price);
-							$('.mix:eq('+id+')').attr("data-order",price);
+							$('.mix:eq('+(id-1)+')').attr("data-order",price);
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
 							$('.btn-buy:eq('+id+')').attr("game-id",id-1);
 						});
@@ -114,7 +114,7 @@
 							$('.currowner:eq('+0+')').text(result[1]);
 							$('.card-title:eq('+0+')').text(result[0]);
 							$('.price:eq('+0+')').attr("data-trueval",price);
-							$('.mix:eq('+0+')').attr("data-order",price);
+							/*$('.mix:eq('+0+')').attr("data-order",price);*/
 							$('.btn-buy:eq('+0+')').attr("data-id",price);
 							$('.btn-buy:eq('+0+')').attr("game-id",id);
 						});
@@ -125,17 +125,26 @@
 	<link rel="icon" href="http://placehold.it/250x250">
 </head>
 <body style="">
+	<!--div class="ribbon"><span>Popular</span></div-->
 
 	<!-- start loading page -->
 	
 	
 
 	<!-- end loading page -->
-
+<div id="scroller">
+  <div id="scroller1">
+    Counter Strike Game Room Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </div>
+  <div id="scroller2">
+    
+        Counter Strike Game Room Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </div></div>
 	<!-- start navbar section -->
 
 	
 	<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #2e2e2e;color: #fff;">
+			
 		<div class="container">
 			<a class="navbar-brand">Crypto Kotaku</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -180,12 +189,19 @@
 	<!-- start home section -->
 
 	<section id="home" style="background-image: url('CSGO/cover.jpg')">
+	
 		<div class="cover">
 			<div class="container">
+
 				<div class="col-md-10 offset-md-1 text-center">
 					<p>Welcome to <span>CRYPTO KOTAKU'S</span></p>
 					<h1>Counter Strike Game Room</h1>
 					<p id="layout"><span class="">Buy and Trade CS GO Game Items with Ethereum</span></p>
+					<!--div class="row promo-row">
+						<div class="col-4 promo-item"><div class="promo-item-inner">HEL</div></div>
+						<div class="col-4 promo-item"><div class="promo-item-inner">DFDFDF</div></div>
+						<div class="col-4 promo-item"><div class="promo-item-inner">FDFDF</div></div>
+					</div-->
 				</div>
 			</div>
 		</div>
