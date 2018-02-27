@@ -19,10 +19,10 @@ App = {
     }
     web3 = new Web3(App.web3Provider);
 
-    return App.initContract(finalCallBack);
+    return App.initGameContract(finalCallBack);
   },
 
-  initContract: function(finalCallBack) {
+  initGameContract: function(finalCallBack) {
     $.getJSON('./assets/CryptoVideoGames.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var videoGameTokenArtifact = data;
@@ -30,6 +30,22 @@ App = {
 
       // Set the provider for our contract
       App.contracts.VideoGame.setProvider(App.web3Provider);
+
+      return App.initGameItemContract(finalCallBack);
+      
+    });
+  },
+
+  initGameItemContract: function(finalCallBack) {
+    $.getJSON('./assets/CryptoVideoGameItem.json', function(data) {
+      // Get the necessary contract artifact file and instantiate it with truffle-contract
+      var videoGameItemTokenArtifact = data;
+      App.contracts.VideoGameItem = TruffleContract(videoGameItemTokenArtifact);
+
+      // Set the provider for our contract
+      App.contracts.VideoGameItem.setProvider(App.web3Provider);
+      
+      
       if(typeof finalCallBack !== 'undefined'){
         return finalCallBack();
       }

@@ -29,7 +29,7 @@
 
 	  $(document).ready(function() {
 	        App.init(function(){
-	        	App.contracts.VideoGame.deployed().then(function(instance) {
+	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
 	        		fillGameDetails(0, instance);
 	        		fillGameDetails(1, instance);
 	        		fillGameDetails(2, instance);
@@ -61,9 +61,9 @@
 
 				      var account = accounts[0];
 
-				      App.contracts.VideoGame.deployed().then(function(instance) {
+				      App.contracts.VideoGameItem.deployed().then(function(instance) {
 				        gameInstance = instance;
-				        return gameInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+				        return gameInstance.purchaseVideoGameItem(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
 				          	console.log("transaction submitted");
 				          	return;
 				        }).catch(function(err){
@@ -76,7 +76,7 @@
 	  	});
 	});
 	  function fillGameDetails(id, videoGameInstance){
-	  	videoGameInstance.getVideoGameDetails(id).then(function(result){
+	  	videoGameInstance.getVideoGameItemDetails(id).then(function(result){
 							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
 							console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
 							$('.price:eq('+id+')').text(price);
