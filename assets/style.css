@@ -1214,3 +1214,8 @@ cursor: pointer;
 .dropdown:hover > .dropdown-menu {
     display: block;
 }
+.game{
+border-color: #000;
+border:2px solid;
+border-radius: 15px;
+}

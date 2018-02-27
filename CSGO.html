@@ -19,18 +19,18 @@
 	<script src="./assets/app.js"></script>
 	<script type="text/javascript">
 	$(function() {
-		$('.game-img:eq(0)').attr("src",'./CSGO/0.png');
-		$('.game-img:eq(1)').attr("src",'./CSGO/1.png');
-		$('.game-img:eq(2)').attr("src",'./CSGO/2.png');
-		$('.game-img:eq(3)').attr("src",'./CSGO/3.png');
-		$('.game-img:eq(4)').attr("src",'./CSGO/4.png');
-		$('.game-img:eq(5)').attr("src",'./CSGO/5.png');
-		$('.game-img:eq(6)').attr("src",'./CSGO/6.png');
+		$('.game-img:eq(1)').attr("src",'./CSGO/0.png');
+		$('.game-img:eq(2)').attr("src",'./CSGO/1.png');
+		$('.game-img:eq(3)').attr("src",'./CSGO/2.png');
+		$('.game-img:eq(4)').attr("src",'./CSGO/3.png');
+		$('.game-img:eq(5)').attr("src",'./CSGO/4.png');
+		$('.game-img:eq(6)').attr("src",'./CSGO/5.png');
+		$('.game-img:eq(7)').attr("src",'./CSGO/6.png');
 
 	  $(document).ready(function() {
 	        App.init(function(){
 	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
-	        		fillGameDetails(0, instance);
+	        		fillGameDetails(7, instance);
 	        		fillGameDetails(1, instance);
 	        		fillGameDetails(2, instance);
 	        		fillGameDetails(3, instance);
@@ -181,7 +181,36 @@
 			</button>
 		</div>
 		<div class="row mixit" id="container">
+			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Counter Strike</h3>
 
+  					</div>
+					<div class=" card-header">
+						<img src="./kotaku/3.jpg" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="0.2">0.2</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner">0xdcc147f013791e324628113e064941544cc3b8e6</span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
 			<div id="game-item" class="col-3 mix">
       				<div class="card-item">
 					<div class="game-header text-center">
@@ -429,18 +458,25 @@
 			</h2>
 			<p class="text-secondary text-left">Q. How to Buy?<br/>
 			A. You need to use Metamask to buy Games.</p>
+			<p class="text-secondary text-left">Q. Do you give dividends?<br/>
+			A. Whenever anyone buys a Game Item from a game room, Game owners get dividends of 10%. In future, we will also introduce Game Mods which give Game Owners and Game Item owners more dividends.</p>
 			<p class="text-secondary text-left">Q. What is the price increase rate?<br/>
-			A. Everytime you buy a token, the price of the token increases by 2X. When the item is sold:</p>
-			<ul class="text-secondary text-left"">	<li class="text-left"">Current Owner of the Game gets 10%</li>
+			A. Everytime you buy a Game, the price of the token increases by 2X. When the Game is sold:</p>
+			<ul class="text-secondary text-left"">	<li class="text-left"">Current Owner of the Game gets 90%</li>
 				<li>Contract creator gets 10%</li>
-				<li>Owner of the Item/token gets 80%</li></ul>
-		<p class="text-secondary text-left">So, current owner gains 60% profit when someone buys from them.</p>
-			<p class="text-secondary text-left">Q. Where do you deliver the game items?<br/>
-			A. We don't deliver any game items. Think of this like Monopoly where you buy game items instead of cities. You get returns when someone else buys the game items from you.</p>
+				</ul>
+				<p class="text-secondary text-left">Everytime you buy a Game Item (Weapons, characters, maps etc), the price of the token increases by 2X. When the Game Item is sold:</p>
+				<ul class="text-secondary text-left"">	<li>Owner of the Game Item/token gets 80% </li><li class="text-left"">Owner of the Game gets 10%</li>
+				<li>Contract creator gets 10%</li>
+				</ul>
+
+				<p class="text-secondary text-left"> In future, we plan to introduce dividends for Game Items where anytime someone buys Game Mods, Game Item owners and Game owners are given dividends</p>
+			<p class="text-secondary text-left">Q. Where do you deliver the games?<br/>
+			A. We don't deliver any games. Think of this like Monopoly where you buy games instead of cities. You get returns when someone else buys the games from you.</p>
 			<p class="text-secondary text-left">Q. I have a question<br/>
 			A. Please reach out to us on our Discord. We are always available to answer your questions.</p>
 			<p class="text-secondary text-left">Q. What is the future of this game?<br/>
-			A. We plan to introduce more features to provide dividends for the existing players and owners. The game would be extended to generate profits not only to the players who sold their tokens but also to the existing holders</p>
+			A. Based on the response, we plan to develop the game play to include more features.</p>
 			
 		</div>
 	</section>
