@@ -30,13 +30,13 @@
 	  $(document).ready(function() {
 	        App.init(function(){
 	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
-	        		fillGameItemDetails(0, instance);
-	        		fillGameItemDetails(1, instance);
-	        		fillGameItemDetails(2, instance);
-	        		fillGameItemDetails(3, instance);
-	        		fillGameItemDetails(4, instance);
-	        		fillGameItemDetails(5, instance);
-	        		fillGameItemDetails(6, instance);
+	        		fillGameItemDetails(1, 0,instance);
+	        		fillGameItemDetails(2, 1,instance);
+	        		fillGameItemDetails(3, 2,instance);
+	        		fillGameItemDetails(4, 3,instance);
+	        		fillGameItemDetails(5, 4,instance);
+	        		fillGameItemDetails(6, 5,instance);
+	        		fillGameItemDetails(7, 6,instance);
 	        		App.contracts.VideoGame.deployed().then(function(instance){
 	        			fillGameDetails(3, instance);
 	        		})
@@ -91,19 +91,18 @@
     			});
 	  	});
 	});
-	  function fillGameItemDetails(id, videoGameInstance){
-	  	videoGameInstance.getVideoGameItemDetails(id).then(function(result){
+	  function fillGameItemDetails(id, gameId,videoGameInstance){
+	  	videoGameInstance.getVideoGameItemDetails(gameId).then(function(result){
 							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
 							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
-							console.log(JSON.stringify(result) + " " +id);
-							id= id+1;
+							console.log(JSON.stringify(result) + " " +id + " " + gameId);
 							$('.price:eq('+id+')').text(price);
 							$('.currowner:eq('+id+')').text(result[1]);
 							$('.card-title:eq('+id+')').text(result[0]);
 							$('.price:eq('+id+')').attr("data-trueval",price);
 							$('.mix:eq('+(id-1)+')').attr("data-order",price);
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
-							$('.btn-buy:eq('+id+')').attr("game-id",id-1);
+							$('.btn-buy:eq('+id+')').attr("game-id",gameId);
 						});
 	  }
 	  function fillGameDetails(id, videoGameInstance){
