@@ -19,26 +19,48 @@
 	<script src="./assets/app.js"></script>
 	<script type="text/javascript">
 	$(function() {
-		$('.game-img:eq(1)').attr("src",'./CSGO/0.png');
-		$('.game-img:eq(2)').attr("src",'./CSGO/1.png');
-		$('.game-img:eq(3)').attr("src",'./CSGO/2.png');
-		$('.game-img:eq(4)').attr("src",'./CSGO/3.png');
-		$('.game-img:eq(5)').attr("src",'./CSGO/4.png');
-		$('.game-img:eq(6)').attr("src",'./CSGO/5.png');
-		$('.game-img:eq(7)').attr("src",'./CSGO/6.png');
+		$('.game-img:eq(1)').attr("src",'./POKEMON/0.png');
+		$('.game-img:eq(2)').attr("src",'./POKEMON/1.png');
+		$('.game-img:eq(3)').attr("src",'./POKEMON/2.png');
+		$('.game-img:eq(4)').attr("src",'./POKEMON/3.png');
+		$('.game-img:eq(5)').attr("src",'./POKEMON/4.png');
+		$('.game-img:eq(6)').attr("src",'./POKEMON/5.png');
+		$('.game-img:eq(7)').attr("src",'./POKEMON/6.png');
+		$('.game-img:eq(8)').attr("src",'./POKEMON/7.png');
+		$('.game-img:eq(9)').attr("src",'./POKEMON/8.png');
+		$('.game-img:eq(10)').attr("src",'./POKEMON/9.png');
+		$('.game-img:eq(11)').attr("src",'./POKEMON/10.png');
+		$('.game-img:eq(12)').attr("src",'./POKEMON/11.png');
+		$('.game-img:eq(13)').attr("src",'./POKEMON/12.png');
+		$('.game-img:eq(14)').attr("src",'./POKEMON/13.png');
+		$('.game-img:eq(15)').attr("src",'./POKEMON/14.png');
+		$('.game-img:eq(16)').attr("src",'./POKEMON/15.png');
+		$('.game-img:eq(17)').attr("src",'./POKEMON/16.png');
+		$('.game-img:eq(18)').attr("src",'./POKEMON/17.png');
 
 	  $(document).ready(function() {
 	        App.init(function(){
 	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
-	        		fillGameItemDetails(1, 0,instance);
-	        		fillGameItemDetails(2, 1,instance);
-	        		fillGameItemDetails(3, 2,instance);
-	        		fillGameItemDetails(4, 3,instance);
-	        		fillGameItemDetails(5, 4,instance);
-	        		fillGameItemDetails(6, 5,instance);
-	        		fillGameItemDetails(7, 6,instance);
+	        		fillGameItemDetails(1, 26,instance);
+	        		fillGameItemDetails(2, 27,instance);
+	        		fillGameItemDetails(3, 28,instance);
+	        		fillGameItemDetails(4, 29,instance);
+	        		fillGameItemDetails(5, 30,instance);
+	        		fillGameItemDetails(6, 31,instance);
+	        		fillGameItemDetails(7, 32,instance);
+	        		fillGameItemDetails(8, 33,instance);
+	        		fillGameItemDetails(9, 34,instance);
+	        		fillGameItemDetails(10, 35,instance);
+	        		fillGameItemDetails(11, 36,instance);
+	        		fillGameItemDetails(12, 37,instance);
+	        		fillGameItemDetails(13, 38,instance);
+	        		fillGameItemDetails(14, 39,instance);
+	        		fillGameItemDetails(15, 40,instance);
+	        		fillGameItemDetails(16, 41,instance);
+	        		fillGameItemDetails(17, 42,instance);
+	        		fillGameItemDetails(18, 43,instance);
 	        		App.contracts.VideoGame.deployed().then(function(instance){
-	        			fillGameDetails(3, instance);
+	        			fillGameDetails(6, instance);
 	        		})
 
 	        	});
@@ -188,15 +210,15 @@
 
 	<!-- start home section -->
 
-	<section id="home" style="background-image: url('CSGO/cover.jpg')">
+	<section id="home" style="background-image: url('POKEMON/cover.jpg')">
 	
 		<div class="cover">
 			<div class="container">
 
 				<div class="col-md-10 offset-md-1 text-center">
 					<p>Welcome to <span>CRYPTO KOTAKU'S</span></p>
-					<h1>Counter Strike Game Room</h1>
-					<p id="layout"><span class="">Buy and Trade CS GO Game Items with Ethereum</span></p>
+					<h1>POKEMON RED Game Room</h1>
+					<p id="layout"><span class="">Buy and Trade POKEMON TYPES with Ethereum</span></p>
 					<!--div class="row promo-row">
 						<div class="col-4 promo-item"><div class="promo-item-inner">HEL</div></div>
 						<div class="col-4 promo-item"><div class="promo-item-inner">DFDFDF</div></div>
@@ -214,7 +236,7 @@
 
 	<section id="portfolio" class="text-center">
 		<h2 class="heading">
-			Buy CS GO Weapons
+			Buy POKEMON Types
 		</h2>
 		<br>
 		<div class="btn-group" role="group" aria-label="Basic example">
@@ -235,7 +257,7 @@
 
   					</div>
 					<div class=" card-header">
-						<img src="./kotaku/3.jpg" class="game-img" alt="Game Image Loading...">
+						<img src="./kotaku/6.jpg" class="game-img" alt="Game Image Loading...">
 					</div>
                 			<div class="game-content">
                   				<div class="game-info">
@@ -488,10 +510,358 @@
 	        			</div>
       				</div>
     			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
 
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
 
-    			
-		</div>
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 mix">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">
+                                					Game Price Loading...
+                                				</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
+                        					Own the Token
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
 	</section>
 
 	<!-- end portfolio section -->
