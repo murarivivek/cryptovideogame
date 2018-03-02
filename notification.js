@@ -34,9 +34,9 @@ function sendSubscriptionToServer(subscription) {
   var endpointSections = mergedEndpoint.split('/');
   var subscriptionId = endpointSections[endpointSections.length - 1];
   web3.eth.getAccounts(function(error, accounts) {
-  if(error){
-    alert('Metamask Not conneted');
-  } else {
+    if(error){
+      alert('Metamask Not conneted');
+    } else {
       var account = accounts[0];
       var http = new XMLHttpRequest();
       var url = "/api/subscribe";
@@ -134,41 +134,47 @@ function subscribe() {
 
   web3.version.getNetwork(function(err, netId) {
       if(netId == '1'){
-        var pushButton = document.querySelector('.js-push-button');
-        pushButton.disabled = true;
-        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-          serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
-            .then(function(subscription) {
-              // The subscription was successful
-              isPushEnabled = true;
-              pushButton.textContent = 'Disable Push Messages';
-              pushButton.disabled = false;
-
-              // TODO: Send the subscription subscription.endpoint
-              // to your server and save it to send a push message
-              // at a later date
-              return sendSubscriptionToServer(subscription);
-            })
-            .catch(function(e) {
-              if (Notification.permission === 'denied') {
-                // The user denied the notification permission which
-                // means we failed to subscribe and the user will need
-                // to manually change the notification permission to
-                // subscribe to push messages
-                alert('Permission for Notifications was denied');
-                pushButton.disabled = true;
-              } else {
-                // A problem occurred with the subscription, this can
-                // often be down to an issue or lack of the gcm_sender_id
-                // and / or gcm_user_visible_only
-                alert('Unable to subscribe to push.', e);
+        web3.eth.getAccounts(function(error, accounts) {
+        if(error || !accounts[0]){
+          alert('Metamask not conneted');
+        } else {
+          var pushButton = document.querySelector('.js-push-button');
+          pushButton.disabled = true;
+          navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+            serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
+              .then(function(subscription) {
+                // The subscription was successful
+                isPushEnabled = true;
+                pushButton.textContent = 'Disable Push Messages';
                 pushButton.disabled = false;
-                pushButton.textContent = 'Enable Push Messages';
-              }
-            });
-        });
+
+                // TODO: Send the subscription subscription.endpoint
+                // to your server and save it to send a push message
+                // at a later date
+                return sendSubscriptionToServer(subscription);
+              })
+              .catch(function(e) {
+                if (Notification.permission === 'denied') {
+                  // The user denied the notification permission which
+                  // means we failed to subscribe and the user will need
+                  // to manually change the notification permission to
+                  // subscribe to push messages
+                  alert('Permission for Notifications was denied');
+                  pushButton.disabled = true;
+                } else {
+                  // A problem occurred with the subscription, this can
+                  // often be down to an issue or lack of the gcm_sender_id
+                  // and / or gcm_user_visible_only
+                  alert('Unable to subscribe to push.', e);
+                  pushButton.disabled = false;
+                  pushButton.textContent = 'Enable Push Messages';
+                }
+              });
+          });
+        }
+      });
       } else {
-        alert('Not connected to Metamask Mainnet');
+        alert('Not connected to Metamask mainnet');
       }
     });
 }
@@ -197,33 +203,39 @@ function initialiseState() {
 
   web3.version.getNetwork(function(err, netId) {
       if(netId == '1'){
-        // We need the service worker registration to check for a subscription
-        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-          // Do we already have a push message subscription?
-          serviceWorkerRegistration.pushManager.getSubscription()
-            .then(function(subscription) {
-              // Enable any UI which subscribes / unsubscribes from
-              // push messages.
-              var pushButton = document.querySelector('.js-push-button');
-              pushButton.disabled = false;
+        web3.eth.getAccounts(function(error, accounts) {
+        if(error || !accounts[0]){
+          alert('Metamask not conneted');
+        } else {
+          // We need the service worker registration to check for a subscription
+          navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+            // Do we already have a push message subscription?
+            serviceWorkerRegistration.pushManager.getSubscription()
+              .then(function(subscription) {
+                // Enable any UI which subscribes / unsubscribes from
+                // push messages.
+                var pushButton = document.querySelector('.js-push-button');
+                pushButton.disabled = false;
 
-              if (!subscription) {
-                // We aren’t subscribed to push, so set UI
-                // to allow the user to enable push
-                return;
-              }
+                if (!subscription) {
+                  // We aren’t subscribed to push, so set UI
+                  // to allow the user to enable push
+                  return;
+                }
 
-              // Keep your server in sync with the latest subscription
-              sendSubscriptionToServer(subscription);
+                // Keep your server in sync with the latest subscription
+                sendSubscriptionToServer(subscription);
 
-              // Set your UI to show they have subscribed for
-              // push messages
-              pushButton.textContent = 'Disable Push Messages';
-              isPushEnabled = true;
-            })
-            .catch(function(err) {
-              alert('Error during getSubscription()', err);
-            });
+                // Set your UI to show they have subscribed for
+                // push messages
+                pushButton.textContent = 'Disable Push Messages';
+                isPushEnabled = true;
+              })
+              .catch(function(err) {
+                alert('Error during getSubscription()', err);
+              });
+          });
+        }
         });
       } else {
         console.log('Not connected to Metamask Mainnet');
