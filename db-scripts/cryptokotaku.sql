@@ -40,6 +40,6 @@ CREATE TABLE `notification` (
 --
 /*
 
-insert into notification (id, title, body, icon, tag, action_url, created_user, last_modified_user) values (0, 'Hurry up!', 'New items available.', '','default','', 'admin', 'admin');
+insert into notification (id, title, body, icon, tag, action_url, created_user, last_modified_user) values (0, 'Hurry up!', 'New items available.', '','default','/', 'admin', 'admin');
 
 */

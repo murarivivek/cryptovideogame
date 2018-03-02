@@ -83,7 +83,7 @@ notifyAll:function(key, callback){
 	});
 },
 
-getNotification:function(key, callback){
+getNotification:function(callback){
 	pool.getConnection(function(err, connection) {
 		if(err) {
 	        console.log(err);
