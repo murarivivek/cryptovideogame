@@ -18,8 +18,9 @@ app.post('/api/subscribe', function (req, res) {
   var subscriberId = req.body.id;
   var walletAddress = req.body.walletAddress;
   var email = req.body.email;
+  var endPoint = req.body.endPoint;
   responseJson = {}
-  SubscribeModel.subscribe(subscriberId, walletAddress, email,function(err, result){
+  SubscribeModel.subscribe(subscriberId, walletAddress, endPoint, email, function(err, result){
 		if(err){
 			responseJson =  JSON.parse(JSON.stringify(err));
 		}else{
@@ -45,10 +46,8 @@ app.post('/api/unsubscribe', function (req, res) {
 
 app.post('/api/notifyAll', function (req, res) {
   var key = req.body.key;
-  delete req.body.key;
-  var notifDetails = req.body;
   responseJson = {}
-  SubscribeModel.notifyAll(key, notifDetails, function(err, result){
+  SubscribeModel.notifyAll(key, function(err, result){
 		if(err){
 			responseJson =  JSON.parse(JSON.stringify(err));
 		}else{

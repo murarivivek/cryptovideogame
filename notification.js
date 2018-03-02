@@ -33,6 +33,7 @@ function sendSubscriptionToServer(subscription) {
   var mergedEndpoint = endpointWorkaround(subscription);
   var endpointSections = mergedEndpoint.split('/');
   var subscriptionId = endpointSections[endpointSections.length - 1];
+  var endPoint = mergedEndpoint.substring(0, mergedEndpoint.lastIndexOf("/"));
   web3.eth.getAccounts(function(error, accounts) {
     if(error){
       alert('Metamask Not conneted');
@@ -40,18 +41,23 @@ function sendSubscriptionToServer(subscription) {
       var account = accounts[0];
       var http = new XMLHttpRequest();
       var url = "/api/subscribe";
-      var params = 'id='+subscriptionId+'&walletAddress='+account;
+      var params = {
+        'id' : subscriptionId,
+        'walletAddress' : account,
+        'endPoint' : endPoint
+      };
+
       http.open("POST", url, true);
 
       //Send the proper header information along with the request
-      http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      http.setRequestHeader("Content-type", "application/json");
 
       http.onreadystatechange = function() {//Call a function when the state changes.
           if(http.readyState == 4 && http.status == 200) {
               console.log(http.responseText);
           }
       }
-      http.send(params);
+      http.send(JSON.stringify(params));
   }
   });
   console.log(JSON.stringify(subscription));
@@ -65,19 +71,21 @@ function removeSubscriptionFromServer(subscription) {
   
   var http = new XMLHttpRequest();
   var url = "/api/unsubscribe";
-  var params = 'id='+subscriptionId;
+  var params = {
+    'id' : subscriptionId
+  };
   
   http.open("POST", url, true);
 
   //Send the proper header information along with the request
-  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  http.setRequestHeader("Content-type", "application/json");
 
   http.onreadystatechange = function() {//Call a function when the state changes.
       if(http.readyState == 4 && http.status == 200) {
           console.log(http.responseText);
       }
   }
-  http.send(params);
+  http.send(JSON.stringify(params));
   console.log(JSON.stringify(subscription));
 }
 
@@ -262,3 +270,5 @@ window.addEventListener('load', function() {
     alert('Service workers aren\'t supported in this browser.');
   }
 });
+
+
