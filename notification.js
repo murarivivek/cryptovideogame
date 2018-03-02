@@ -33,27 +33,32 @@ function sendSubscriptionToServer(subscription) {
   var mergedEndpoint = endpointWorkaround(subscription);
   var endpointSections = mergedEndpoint.split('/');
   var subscriptionId = endpointSections[endpointSections.length - 1];
+  web3.eth.getAccounts(function(error, accounts) {
+  if(error){
+    console.log('Metamask Not conneted');
+  } else {
+      console.log(accounts);
+      var account = accounts[0];
+      var http = new XMLHttpRequest();
+      var url = "/api/subscribe";
+      var params = 'id='+subscriptionId+'&walletAddress='+account;
+      var data = new FormData();
+      data.append('id', subscriptionId);
+      data.append('walletAddress', 'walletAddress');
+      data.append('email', 'email');
+      http.open("POST", url, true);
 
-  var http = new XMLHttpRequest();
-  var url = "/api/subscribe";
-  var params = 'id='+subscriptionId+'&walletAddress=ancd';
-  var data = new FormData();
-  data.append('id', subscriptionId);
-  data.append('walletAddress', 'walletAddress');
-  data.append('email', 'email');
-  http.open("POST", url, true);
+      //Send the proper header information along with the request
+      http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-  //Send the proper header information along with the request
-  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-  http.onreadystatechange = function() {//Call a function when the state changes.
-      if(http.readyState == 4 && http.status == 200) {
-          alert(http.responseText);
+      http.onreadystatechange = function() {//Call a function when the state changes.
+          if(http.readyState == 4 && http.status == 200) {
+              console.log(http.responseText);
+          }
       }
+      http.send(params);
   }
-  http.send(params);
-
-  
+  });
   console.log(JSON.stringify(subscription));
 }
 
@@ -104,40 +109,47 @@ function unsubscribe() {
 function subscribe() {
   // Disable the button so it can't be changed while
   // we process the permission request
-  var pushButton = document.querySelector('.js-push-button');
-  pushButton.disabled = true;
+  
 
-  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-    serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
-      .then(function(subscription) {
-        // The subscription was successful
-        isPushEnabled = true;
-        pushButton.textContent = 'Disable Push Messages';
-        pushButton.disabled = false;
+  web3.version.getNetwork(function(err, netId) {
+      if(netId == '1'){
+        var pushButton = document.querySelector('.js-push-button');
+        pushButton.disabled = true;
+        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+          serviceWorkerRegistration.pushManager.subscribe({userVisibleOnly: true})
+            .then(function(subscription) {
+              // The subscription was successful
+              isPushEnabled = true;
+              pushButton.textContent = 'Disable Push Messages';
+              pushButton.disabled = false;
 
-        // TODO: Send the subscription subscription.endpoint
-        // to your server and save it to send a push message
-        // at a later date
-        return sendSubscriptionToServer(subscription);
-      })
-      .catch(function(e) {
-        if (Notification.permission === 'denied') {
-          // The user denied the notification permission which
-          // means we failed to subscribe and the user will need
-          // to manually change the notification permission to
-          // subscribe to push messages
-          alert('Permission for Notifications was denied');
-          pushButton.disabled = true;
-        } else {
-          // A problem occurred with the subscription, this can
-          // often be down to an issue or lack of the gcm_sender_id
-          // and / or gcm_user_visible_only
-          alert('Unable to subscribe to push.', e);
-          pushButton.disabled = false;
-          pushButton.textContent = 'Enable Push Messages';
-        }
-      });
-  });
+              // TODO: Send the subscription subscription.endpoint
+              // to your server and save it to send a push message
+              // at a later date
+              return sendSubscriptionToServer(subscription);
+            })
+            .catch(function(e) {
+              if (Notification.permission === 'denied') {
+                // The user denied the notification permission which
+                // means we failed to subscribe and the user will need
+                // to manually change the notification permission to
+                // subscribe to push messages
+                alert('Permission for Notifications was denied');
+                pushButton.disabled = true;
+              } else {
+                // A problem occurred with the subscription, this can
+                // often be down to an issue or lack of the gcm_sender_id
+                // and / or gcm_user_visible_only
+                alert('Unable to subscribe to push.', e);
+                pushButton.disabled = false;
+                pushButton.textContent = 'Enable Push Messages';
+              }
+            });
+        });
+      } else {
+        alert('Not connected to Metamask Mainnet');
+      }
+    });
 }
 
 // Once the service worker is registered set the initial state
@@ -162,34 +174,40 @@ function initialiseState() {
     return;
   }
 
-  // We need the service worker registration to check for a subscription
-  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-    // Do we already have a push message subscription?
-    serviceWorkerRegistration.pushManager.getSubscription()
-      .then(function(subscription) {
-        // Enable any UI which subscribes / unsubscribes from
-        // push messages.
-        var pushButton = document.querySelector('.js-push-button');
-        pushButton.disabled = false;
+  web3.version.getNetwork(function(err, netId) {
+      if(netId == '1'){
+        // We need the service worker registration to check for a subscription
+        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+          // Do we already have a push message subscription?
+          serviceWorkerRegistration.pushManager.getSubscription()
+            .then(function(subscription) {
+              // Enable any UI which subscribes / unsubscribes from
+              // push messages.
+              var pushButton = document.querySelector('.js-push-button');
+              pushButton.disabled = false;
 
-        if (!subscription) {
-          // We aren’t subscribed to push, so set UI
-          // to allow the user to enable push
-          return;
-        }
+              if (!subscription) {
+                // We aren’t subscribed to push, so set UI
+                // to allow the user to enable push
+                return;
+              }
 
-        // Keep your server in sync with the latest subscription
-        sendSubscriptionToServer(subscription);
+              // Keep your server in sync with the latest subscription
+              sendSubscriptionToServer(subscription);
 
-        // Set your UI to show they have subscribed for
-        // push messages
-        pushButton.textContent = 'Disable Push Messages';
-        isPushEnabled = true;
-      })
-      .catch(function(err) {
-        alert('Error during getSubscription()', err);
-      });
-  });
+              // Set your UI to show they have subscribed for
+              // push messages
+              pushButton.textContent = 'Disable Push Messages';
+              isPushEnabled = true;
+            })
+            .catch(function(err) {
+              alert('Error during getSubscription()', err);
+            });
+        });
+      } else {
+        console.log('Not connected to Metamask Mainnet');
+      }
+    });
 }
 
 window.addEventListener('load', function() {
@@ -206,7 +224,7 @@ window.addEventListener('load', function() {
   // enhance and add push messaging support, otherwise continue without it.
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./service-worker.js')
-    .then(initialiseState);
+            .then(initialiseState);
   } else {
     alert('Service workers aren\'t supported in this browser.');
   }
