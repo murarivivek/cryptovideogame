@@ -6,7 +6,7 @@ var pool  = mysql.createPool(config);
 
 var Subscriber={
  
-subscribe:function(subscriberId, walletAddress, endPoint, email, callback){
+subscribe:function(subscriberId, walletAddress, networkId, endPoint, email, callback){
 	var browserType = 2;
 	if(endPoint.indexOf('google') !== -1){
 		browserType = 1;
@@ -15,8 +15,9 @@ subscribe:function(subscriberId, walletAddress, endPoint, email, callback){
 		if(err) {
 	        console.log(err);
 	      } else {
-	      	var data = [walletAddress, subscriberId, endPoint, browserType, email, 'admin', 'admin'];
-	        connection.query("INSERT INTO user_subscription (wallet_address, subscriber_id, end_point, browser_type, email, created_user, last_modified_user) VALUES  ? ON DUPLICATE KEY UPDATE subscriber_id = VALUES(subscriber_id), email = VALUES(email), end_point = VALUES(end_point), browser_type = VALUES(browser_type)", [[data]], function (error, results, fields) {
+	      	var time_stamp = (new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' ');
+          	var data = [subscriberId, walletAddress, networkId, endPoint, browserType, email, 'admin', 'admin', time_stamp];
+          	connection.query("INSERT INTO user_subscription (subscriber_id, wallet_address, network_id, end_point, browser_type, email, created_user, last_modified_user, last_modified_time) VALUES  ? ON DUPLICATE KEY UPDATE wallet_address = VALUES(wallet_address), network_id = VALUES(network_id), email = VALUES(email), end_point = VALUES(end_point), browser_type = VALUES(browser_type), last_modified_time = VALUES(last_modified_time)", [[data]], function (error, results, fields) {
 	          connection.release();
 	          if (error) {
 	            console.log(error);
@@ -76,6 +77,23 @@ notifyAll:function(key, callback){
 					} else {
 						callback({});
 					}
+	          }
+	        });
+	      }
+	});
+},
+
+getNotification:function(key, callback){
+	pool.getConnection(function(err, connection) {
+		if(err) {
+	        console.log(err);
+	      } else {
+	        connection.query('SELECT title, body, icon, tag, action_url FROM notification where id = 0', function (error, results, fields) {
+	          connection.release();
+	          if (error) {
+	            console.log(error);
+	          } else {
+	          	callback(results[0]);
 	          }
 	        });
 	      }
