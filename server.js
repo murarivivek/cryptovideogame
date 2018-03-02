@@ -29,6 +29,20 @@ app.post('/api/subscribe', function (req, res) {
 	});
 })
 
+app.post('/api/unsubscribe', function (req, res) {
+	
+  var subscriberId = req.body.id;
+  responseJson = {}
+  SubscribeModel.unsubscribe(subscriberId, function(err, result){
+		if(err){
+			responseJson =  JSON.parse(JSON.stringify(err));
+		}else{
+			responseJson =  JSON.parse(JSON.stringify(result));
+		}
+		res.send(responseJson);
+	});
+})
+
 app.listen(8000, function () {
   console.log('Crypto Meme app listening on port 3000!')
 })

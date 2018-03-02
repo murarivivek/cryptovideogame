@@ -35,17 +35,12 @@ function sendSubscriptionToServer(subscription) {
   var subscriptionId = endpointSections[endpointSections.length - 1];
   web3.eth.getAccounts(function(error, accounts) {
   if(error){
-    console.log('Metamask Not conneted');
+    alert('Metamask Not conneted');
   } else {
-      console.log(accounts);
       var account = accounts[0];
       var http = new XMLHttpRequest();
       var url = "/api/subscribe";
       var params = 'id='+subscriptionId+'&walletAddress='+account;
-      var data = new FormData();
-      data.append('id', subscriptionId);
-      data.append('walletAddress', 'walletAddress');
-      data.append('email', 'email');
       http.open("POST", url, true);
 
       //Send the proper header information along with the request
@@ -61,6 +56,31 @@ function sendSubscriptionToServer(subscription) {
   });
   console.log(JSON.stringify(subscription));
 }
+
+function removeSubscriptionFromServer(subscription) {
+
+  var mergedEndpoint = endpointWorkaround(subscription);
+  var endpointSections = mergedEndpoint.split('/');
+  var subscriptionId = endpointSections[endpointSections.length - 1];
+  
+  var http = new XMLHttpRequest();
+  var url = "/api/unsubscribe";
+  var params = 'id='+subscriptionId;
+  
+  http.open("POST", url, true);
+
+  //Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  http.onreadystatechange = function() {//Call a function when the state changes.
+      if(http.readyState == 4 && http.status == 200) {
+          console.log(http.responseText);
+      }
+  }
+  http.send(params);
+  console.log(JSON.stringify(subscription));
+}
+
 
 function unsubscribe() {
   var pushButton = document.querySelector('.js-push-button');
@@ -90,6 +110,7 @@ function unsubscribe() {
           pushButton.disabled = false;
           pushButton.textContent = 'Enable Push Messages';
           isPushEnabled = false;
+          removeSubscriptionFromServer(pushSubscription);
         }).catch(function(e) {
           // We failed to unsubscribe, this can lead to
           // an unusual state, so may be best to remove

@@ -28,7 +28,26 @@ subscribe:function(subscriberId, walletAddress, email, callback){
 	      }
 	});
 	
+},
+
+unsubscribe:function(subscriberId, callback){
+	pool.getConnection(function(err, connection) {
+		if(err) {
+	        console.log(err);
+	      } else {
+	      	var data = [subscriberId];
+	        connection.query("DELETE from user_subscription where subscriber_id = ? ", data, function (error, results, fields) {
+	          connection.release();
+	          if (error) {
+	            console.log(error);
+	          } else {
+	            callback(results);
+	          }
+	        });
+	      }
+	});
 }
+
 };
 
 module.exports = Subscriber;
