@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Buy and trade Games on Blockchain.">
+	
+	<title>Crypto Kotaku - Buy and trade games on blockchain </title>
+	<link rel="stylesheet" href="./assets/bootstrap.min.css">
+	<link rel="stylesheet" href="./assets/pe-icon-7-stroke.css">
+	<link rel="stylesheet" href="./assets/font-awesome.min.css">
+	<link rel="stylesheet" href="./assets/lightbox.min.css">
+	<link rel="stylesheet" href="./assets/style.css">
+	<script
+  	src="https://code.jquery.com/jquery-3.3.1.min.js"
+  	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  	crossorigin="anonymous"></script>
+	<script src="./assets/web3.min.js"></script>
+	<script src="./assets/truffle-contract.js"></script>
+	<script src="./assets/app.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$('.game-img:eq(0)').attr("src",'./kotaku/0.jpg');
+		$('.game-img:eq(1)').attr("src",'./kotaku/1.jpg');
+		$('.game-img:eq(2)').attr("src",'./kotaku/2.png');
+		$('.game-img:eq(3)').attr("src",'./kotaku/3.jpg');
+		$('.game-img:eq(4)').attr("src",'./kotaku/4.jpg');
+		$('.game-img:eq(5)').attr("src",'./kotaku/5.jpg');
+		$('.game-img:eq(6)').attr("src",'./kotaku/6.jpg');
+		$('.game-img:eq(7)').attr("src",'./kotaku/7.jpg');
+		$('.game-img:eq(8)').attr("src",'./kotaku/8.jpg');
+		$('.game-img:eq(9)').attr("src",'./kotaku/9.jpg');
+		$('.game-img:eq(10)').attr("src",'./kotaku/10.jpg');
+		$('.game-img:eq(11)').attr("src",'./kotaku/11.jpg');
+		$('.game-img:eq(12)').attr("src",'./kotaku/12.jpg');
+		$('.game-img:eq(13)').attr("src",'./kotaku/13.jpg');
+		$('.game-img:eq(14)').attr("src",'./kotaku/14.jpg');
+		$('.game-img:eq(15)').attr("src",'./kotaku/15.png');
+		$('.game-img:eq(16)').attr("src",'./kotaku/16.png');
+	  $(document).ready(function() {
+	        App.init(function(){
+	        	App.contracts.VideoGame.deployed().then(function(instance) {
+	        		fillGameDetails(0, instance);
+	        		fillGameDetails(1, instance);
+	        		fillGameDetails(2, instance);
+	        		fillGameDetails(3, instance);
+	        		fillGameDetails(4, instance);
+	        		fillGameDetails(5, instance);
+	        		fillGameDetails(6, instance);
+	        		fillGameDetails(7, instance);
+	        		fillGameDetails(8, instance);
+	        		fillGameDetails(9, instance);
+	        		fillGameDetails(10, instance);
+	        		fillGameDetails(11, instance);
+	        		fillGameDetails(12, instance);
+	        		fillGameDetails(13, instance);
+	        		fillGameDetails(14, instance);
+	        		fillGameDetails(15, instance);
+	        		fillGameDetails(16, instance);
+	        	});
+	        	if(App.metamaskInstalled){
+			      web3.eth.getAccounts(function(error, accounts) {
+			        var account = accounts[0];
+			        $('#address').text(account.substring(0,8));
+			        $('#address').removeClass('not-connected');
+			        $('#address').addClass('connected');
+			      });
+			    }else{
+			      $('#address').text('Not Connected');
+			      $('#address').removeClass('connected');
+			      $('#address').addClass('not-connected');
+			    }
+			    $(".btn-buy").click(function(event){
+        			var price = Number($(event.target).attr('data-id'));
+        			var gameId = parseInt($(event.target).attr('game-id'));
+        			web3.eth.getAccounts(function(error, accounts) {
+				      if (error) {
+				        console.log(error);
+				      }
+
+				      var account = accounts[0];
+
+				      App.contracts.VideoGame.deployed().then(function(instance) {
+				        gameInstance = instance;
+				        return gameInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+				          	console.log("transaction submitted");
+				          	return;
+				        }).catch(function(err){
+				          console.log("transaction failed");
+				          return;
+				        });
+				      })
+				    });
+    			});
+	  	});
+	  	
+		$('#homer').bind('mousewheel', function(e){
+		        if(e.originalEvent.wheelDelta /120 > 0) {
+		        //	console.log($this);
+		        	//console.log($("input[name=trigger]:checked"));
+		        	    $("input[name=trigger]:checked").parent().next().children("input").prop("checked",true);
+		           // $(this).carousel('next');
+		        }
+		        else {
+		          //  $(this).carousel('prev');
+		          //  console.log($this);
+		        	    $("input[name=trigger]:checked").parent().prev().children("input").prop("checked",true);
+		        }
+	    	});
+		$(".date").click(function(){
+			$(this).siblings('input').prop("checked",true);
+		});
+		$(".circle").click(function(){
+			$(this).siblings('input').prop("checked",true);
+		});
+
+	});
+	  function fillGameDetails(id, videoGameInstance){
+	  	videoGameInstance.getVideoGameDetails(id).then(function(result){
+							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
+							console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+							$('.price:eq('+id+')').text(price);
+							$('.currowner:eq('+id+')').text(result[1]);
+							$('.card-title:eq('+id+')').text(result[0]);
+							$('.price:eq('+id+')').attr("data-trueval",price);
+							$('.mix:eq('+id+')').attr("data-order",price);
+							$('.btn-buy:eq('+id+')').attr("data-id",price);
+							$('.btn-buy:eq('+id+')').attr("game-id",id);
+						});
+	  }
+	});
+	</script>
+
+	<link rel="icon" href="http://placehold.it/250x250">
+</head>
+<body class="homer" style="">
+
+	<!-- start loading page -->
+	
+	
+
+	<!-- end loading page -->
+	<div id="scroller">
+  <div id="scroller1">
+    CS, DOTA and POKEMON Game Rooms Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </div>
+  <div id="scroller2">
+    CS, DOTA and POKEMON Game Rooms Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </div></div>
+
+	<!-- start navbar section -->
+
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #2e2e2e;color: #fff;">
+		<div class="container">
+			<a class="navbar-brand">Crypto Kotaku</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="./index.html#	">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./index.html#portfolio">Buy Games</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./index.html#about">FAQ</a>
+					</li>
+
+					<li class="nav-item dropdown" >
+						
+						 <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          						Game Rooms
+        					</a>
+					        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					          <a class="dropdown-item" href="./CSGO.html">Buy Counter Strike Items</a>
+					          <a class="dropdown-item" href="./DOTA2.html">Buy DOTA Items</a>
+					          <a class="dropdown-item" href="./POKEMON.html">Buy POKEMON Items</a>
+					        </div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="https://discord.gg/7352gvN" target="_blank">Discord</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link not-connected" href="" id="address">Not Connected</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- end navbar section -->
+
+	<!-- start home section -->
+
+	<section id="homer">
+		<div class="cover">
+						<h2 style="text-align: center;">OUR ROADMAP</h2>
+			<p id="note">Crypto Kotaku is a blockchain gaming website. Players can buy Video Games and sell them for profit. We have Game rooms, where players can buy Game Items and sell them. Players get dividends on Games and  Game Items. In the end, players battle among themselves for profits.</p>
+			<ul id='timeline'>
+			  <li class='entry'>
+			    <input class='radio' id='trigger5' name='trigger' type='radio'>
+			    <label for='trigger5'>
+			      <span>
+			        Game Zone
+			      </span>
+			    </label>
+			    <span class='date'>Phase I</span>
+			    <span class='circle'></span>
+			    <div class='content'>
+			      <h3>Game Zone</h3>
+			      <p>
+			        Players can buy games like PLAYERUNKNOWN'S BATTLE GROUNDS, DOTA, Counter Strike etc. Whenever a player buys a game,  price of the game doubles. If the game is bought by someone else, the current owner gets 90% of the proceeds. 
+			      </p>
+			      <p>
+			        Game owners get 10% dividends whenever someone buys Game Items from Game Rooms. Game owners will also get dividends whenever PoWs, the second tier game items are bought.
+			      </p>
+			    </div>
+			  </li>
+			  <li class='entry'>
+			    <input  checked='checked' class='radio' id='trigger4' name='trigger' type='radio'>
+			    <label for='trigger4'>
+			      <span>
+			        Game Rooms
+			      </span>
+			    </label>
+			    <span class='date'>Phase II<sup>Launching Now</sup></span>
+			    <span class='circle'></span>
+			    <div class='content'>
+			      <h3>Game Rooms</h3>
+			      <p>
+			        Game Rooms enable players to buy various Game Items related to a game. Game Items range from Heroes for DOTA to Weapon Types for Counter Strike. Whenever a player buys a Game Item, its value doubles. When the Game Item is bought by another player, Current Game Item Owner and Current Game Owner get returns. Game Item Owner gets 80% of the proceeds.
+			      </p>
+			      <p>
+			        Game Items also bring dividends. Game Item Owners get dividends whenever a PoW is bought from the Power Zone (Phase III). The dividends are distributed to the Game Item owner based on the parent of the PoW.
+			      </p>
+			    </div>
+			  </li>
+			  <li class='entry'>
+			    <input class='radio' id='trigger3' name='trigger' type='radio'>
+			    <label for='trigger3'>
+			      <span>
+			        Power Zones
+			      </span>
+			    </label>
+			    <span class='date'>Phase III</span>
+			    <span class='circle'></span>
+			    <div class='content'>
+			      <h3>Power Zones</h3>
+			      <p>
+			        Power Zones allow players to buy  PoWs, the real heroes of Game. PoWs range from Pikachu in Pokémon Game Room to MAG-7 in Counter Strike Game Room. Whenever a PoW is bought, their value rises. When the PoW is bought by another player, Current PoW Owner, Current Game Item Owner and Current Game Owner get returns.
+			      </p>
+			      <p>
+			      </p>
+			    </div>
+			  </li>
+			  <li class='entry'>
+			    <input class='radio' id='trigger2' name='trigger' type='radio'>
+			    <label for='trigger2'>
+			      <span>
+			        Battle Zones
+			      </span>
+			    </label>
+			    <span class='date'>Phase IV</span>
+			    <span class='circle'></span>
+			    <div class='content'>
+			      <h3>Battle Zones</h3>
+			      <p>
+			        Battle Zones are fun. This is where all the action is! Players can fight amongst each other in tournaments. Winning a Battle not only moves you up the ladder but also get you returns. 
+			      </p>
+			      <p>
+			More details coming soon!
+			      </p>
+			    </div>
+			  </li>
+			  
+			</ul>
+		</div>
+	</section>
+
+
+	<!-- end home section -->
+
+
+
+	
+
+	<!-- start scripts import  -->
+
+	<script src="./assets/jquery-3.2.1.min.js"></script>
+	<script src="./assets/popper.min.js"></script>
+	<script src="./assets/bootstrap.min.js"></script>
+	<!--script src="./assets/lightbox.min.js"></script-->
+	<script src="./assets/mixitup.min.js"></script>
+	<script src="./assets/jquery.countTo.js"></script>
+	<script src="./assets/progressbar.min.js"></script>
+	<script src="./assets/main.js"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114858671-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-114858671-1');
+</script>
+
+	<!-- end scripts import  -->
+	</body></html>
