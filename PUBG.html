@@ -18,6 +18,19 @@
 	<script src="./assets/truffle-contract.js"></script>
 	<script src="./assets/app.js"></script>
 	<script type="text/javascript">
+	function showBuyModal(event){
+	    event.preventDefault();
+	    var price = Number($(event.target).attr('data-id'));
+		var gameId = parseInt($(event.target).attr('game-id'));
+	    $("#metamaskModalVerticalLabel").text("Buy " + $(event.target).parent().parent().parent().find('.card-title').text() + " Game Item");
+	    $("#gameItemBuyPrice").val(price);
+	    $("#buyGameItem").attr("data-id", gameId);
+	    $('#noMetaMaskAlert').hide();
+	    $('#metaMaskLockedAlert').hide();
+	    $('#userDeniedTransaction').hide();
+	    $('#transactionSuccess').hide();
+	    $("#metamaskModal").modal();
+	  }
 	$(function() {
 		$('.game-img:eq(1)').attr("src",'./PUBG/0.png');
 		$('.game-img:eq(2)').attr("src",'./PUBG/1.png');
@@ -25,20 +38,15 @@
 		$('.game-img:eq(4)').attr("src",'./PUBG/3.png');
 		$('.game-img:eq(5)').attr("src",'./PUBG/4.png');
 		$('.game-img:eq(6)').attr("src",'./PUBG/5.png');
-		$('.game-img:eq(7)').attr("src",'./PUBG/6.png');
-		$('.game-img:eq(8)').attr("src",'./PUBG/7.png');
-
 	  $(document).ready(function() {
 	        App.init(function(){
 	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
-	        		fillGameItemDetails(0, instance);
-	        		fillGameItemDetails(1, instance);
-	        		fillGameItemDetails(2, instance);
-	        		fillGameItemDetails(3, instance);
-	        		fillGameItemDetails(4, instance);
-	        		fillGameItemDetails(5, instance);
-	        		fillGameItemDetails(6, instance);
-	        		fillGameItemDetails(7, instance);
+					fillGameItemDetails(1, 44, instance);
+	        		fillGameItemDetails(2, 45, instance);
+	        		fillGameItemDetails(3, 46, instance);
+	        		fillGameItemDetails(4, 47, instance);
+	        		fillGameItemDetails(5, 48, instance);
+	        		fillGameItemDetails(6, 49, instance);
 	        		App.contracts.VideoGame.deployed().then(function(instance){
 	        			fillGameDetails(16, instance);
 	        		})
@@ -56,56 +64,63 @@
 			      $('#address').removeClass('connected');
 			      $('#address').addClass('not-connected');
 			    }
-			    $(".btn-buy").click(function(event){
+			    $(document).on('click', '.btn-buy:not(#gameButton)', showBuyModal);
+			    $("#buyGameItem").click(function(event){
+			        var price = Number($("#gameItemBuyPrice").val());
+        			var gameId = parseInt($("#buyGameItem").attr("data-id"));
+        			web3.eth.getAccounts(function(error, accounts) {
+						if (error) {
+						console.log(error);
+						}
+				        var account = accounts[0];
+				      	App.contracts.VideoGameItem.deployed().then(function(instance) {
+					        gameInstance = instance;
+					        return gameInstance.purchaseVideoGameItem(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+					          	console.log("transaction submitted");
+					          	return;
+					        }).catch(function(err){
+					          console.log("transaction failed");
+					          return;
+					        });
+						});
+				    });
+			    });
+			    $("#gameButton").click(function(event){
         			var price = Number($(event.target).attr('data-id'));
         			var gameId = parseInt($(event.target).attr('game-id'));
         			web3.eth.getAccounts(function(error, accounts) {
-				      if (error) {
-				        console.log(error);
-				      }
+						if (error) {
+							console.log(error);
+						}
 
-				      var account = accounts[0];
+						var account = accounts[0];
 
-				      if($(event.target).attr('id') == 'gameButton'){
 				      	App.contracts.VideoGame.deployed().then(function(instance) {
-				        gameInstance = instance;
-				        return gameInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
-				          	console.log("transaction submitted");
-				          	return;
-				        }).catch(function(err){
-				          console.log("transaction failed");
-				          return;
-				        });
-				      })
-				      }else{
-				      	App.contracts.VideoGameItem.deployed().then(function(instance) {
-				        gameInstance = instance;
-				        return gameInstance.purchaseVideoGameItem(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
-				          	console.log("transaction submitted");
-				          	return;
-				        }).catch(function(err){
-				          console.log("transaction failed");
-				          return;
-				        });
-				      })
-				      }				      
+					        gameInstance = instance;
+					        return gameInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+					          	console.log("transaction submitted");
+					          	return;
+					        }).catch(function(err){
+					          console.log("transaction failed");
+					          return;
+					        });
+				      	});
 				    });
     			});
 	  	});
 	});
-	  function fillGameItemDetails(id, videoGameInstance){
-	  	videoGameInstance.getVideoGameItemDetails(id).then(function(result){
+	  function fillGameItemDetails(id, gameId,videoGameInstance){
+	  	videoGameInstance.getVideoGameItemDetails(gameId).then(function(result){
 							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
 							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
-							console.log(JSON.stringify(result) + " " +id);
-							id= id+1;
+							console.log(JSON.stringify(result) + " " +id + " " + gameId);
 							$('.price:eq('+id+')').text(price);
 							$('.currowner:eq('+id+')').text(result[1]);
 							$('.card-title:eq('+id+')').text(result[0]);
 							$('.price:eq('+id+')').attr("data-trueval",price);
 							$('.mix:eq('+(id-1)+')').attr("data-order",price);
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
-							$('.btn-buy:eq('+id+')').attr("game-id",id-1);
+							$('.btn-buy:eq('+id+')').attr("game-id",gameId);
 						});
 	  }
 	  function fillGameDetails(id, videoGameInstance){
@@ -136,11 +151,11 @@
 	<!-- end loading page -->
 <div id="scroller">
   <div id="scroller1">
-    Counter Strike Game Room Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    PUBG, CS, DOTA and POKEMON Game Rooms Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;
   </div>
   <div id="scroller2">
     
-        Counter Strike Game Room Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        PUBG, CS, DOTA and POKEMON Game Rooms Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;
   </div></div>
 	<!-- start navbar section -->
 
@@ -172,7 +187,10 @@
           						Game Rooms
         					</a>
 					        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					          <a class="dropdown-item" href="./PUBG.html">Buy Counter Strike Items</a>
+					          <a class="dropdown-item" href="./CSGO.html">Buy Counter Strike Items</a>
+					          <a class="dropdown-item" href="./DOTA2.html">Buy DOTA Items</a>
+					          <a class="dropdown-item" href="./POKEMON.html">Buy POKEMON Items</a>
+					          <a class="dropdown-item" href="./PUBG.html">Buy PUBG Items</a>
 					        </div>
 					</li>
 					<li class="nav-item">
@@ -456,76 +474,7 @@
                                   		</div>
 	        			</div>
       				</div>
-    			</div>
-
-			<div id="game-item" class="col-3 mix">
-      				<div class="card-item">
-					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
-
-  					</div>
-					<div class=" card-header">
-						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
-					</div>
-                			<div class="game-content">
-                  				<div class="game-info">
-                    					
-					                <div class="info-section">
-                                				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">
-                                					Game Price Loading...
-                                				</span>
-                                  			</div>
-                				</div>
-                                                <div class="buy-button">
-                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
-                        					Own the Token
-                        				</button>
-
-          					</div>
-          					<div class="info-section">
-                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
-                                    				
-                                  		</div>
-	        			</div>
-      				</div>
-    			</div>
-
-    			<div id="game-item" class="col-3 mix">
-      				<div class="card-item">
-					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
-
-  					</div>
-					<div class=" card-header">
-						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">
-					</div>
-                			<div class="game-content">
-                  				<div class="game-info">
-                    					
-					                <div class="info-section">
-                                				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">
-                                					Game Price Loading...
-                                				</span>
-                                  			</div>
-                				</div>
-                                                <div class="buy-button">
-                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">
-                        					Own the Token
-                        				</button>
-
-          					</div>
-          					<div class="info-section">
-                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
-                                    				
-                                  		</div>
-	        			</div>
-      				</div>
-    			</div>
-
-
-    			
+    			</div>  			
 		</div>
 	</section>
 
@@ -564,7 +513,39 @@
 	</section>
 
 	<!-- end about section -->
+<!-- modal section start -->
+<div class="modal" id="metamaskModal" tabindex="-1" role="dialog" aria-labelledby="metamaskModalVerticalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="metamaskModalVerticalLabel">Buy Game Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div><div class="text-center"><label class="label">Game Item Price (ETH)</label><div><input type="number" class="form-control" id="gameItemBuyPrice" placeholder="Game Item Price (ETH)" value=""></div></div><a class="d-block mx-auto" id="buyGameItem" style="max-width: 350px; margin-top:5px; cursor: pointer;"><img class="w-100" src="/assets/metamask-pay.png"></a></div>
+        <div class="alert alert-warning" role="alert" id="noMetaMaskAlert" style="display:none;">
+          Please install the <a href="https://metamask.io/" target="_blank">MetaMask</a> secure wallet in order to transact.
+        </div>
+        <div class="alert alert-warning" role="alert" id="metaMaskLockedAlert" style="display:none;">
+          Metamask is locked. Please unlock and refresh this page. Or you are on wrong network on MetaMask. Please change to MainNet and refresh this page.
+        </div>
+        <div class="alert alert-warning" role="alert" id="userDeniedTransaction" style="display:none;">
+          You cancelled the transaction or your connection was lost before the transaction finalized. Please try again.
+        </div>
+        <div class="alert alert-warning" role="alert" id="transactionSuccess" style="display:none;">
+          Your transaction has been submitted.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span>Transactions can sometimes take few minutes to process. By the time you buy this Game Item, it is possible that the price may be higher than shown here. You can submit higher amount to increase chances of successful transaction. If the bid is higher than current price, the difference will be refunded automatically.</span>
+      </div>
+    </div>
+  </div>
+</div>
 
+	<!-- modal section end -->
 
 
 	
