@@ -744,7 +744,7 @@ nav ul li.active::before {
   -o-transition: all 0.4s linear;
   -ms-transition: all 0.4s linear;
   transition: all 0.4s linear;
-  content: "\e63e";
+  content: "";
   position: absolute;
   height: 80px;
   width: 80px;
