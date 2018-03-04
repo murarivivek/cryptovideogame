@@ -159,7 +159,7 @@
 							$('.card-title:eq('+id+')').text(result[1]);
 							setGameName(id,Number(result[5]),gameItemInstance);
 							$('.price:eq('+id+')').attr("data-trueval",price);
-							$('#game-item:eq('+(id-1)+')').attr("data-order",price);
+							$('.mix:eq('+(id-1)+')').attr("data-order",price);
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
 							$('.btn-buy:eq('+id+')').attr("game-id",powId);
 						});
