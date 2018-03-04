@@ -51,7 +51,7 @@ App = {
   },
 
   initPowZoneContract: function(finalCallBack) {
-    $.getJSON('./assets/PowZoneToken.json', function(data) {
+    $.getJSON('./assets/PowZoneToken.json?id=no-cache', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var powZoneTokenArtifact = data;
       App.contracts.PowZone = TruffleContract(powZoneTokenArtifact);
