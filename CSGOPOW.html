@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="./assets/font-awesome.min.css">
 	<link rel="stylesheet" href="./assets/lightbox.min.css">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/flipclock.css">
 	<script
   	src="https://code.jquery.com/jquery-3.3.1.min.js"
   	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -78,7 +79,27 @@
 			      $('#address').addClass('not-connected');
 			    }
 	  	});
+	  	var timeToCountdown = (new Date("Sun Mar 04 2018 17:00:00 GMT").getTime()) - (new Date().getTime());
+	  	//console.log(timeToCountdown);
+	  	if(timeToCountdown>0){
+		  	clock  = $('.flip-counter').FlipClock(Math.ceil(timeToCountdown/1000),{
+		  			countdown: true,
+		  			autostart: true,
+		  			callbacks:{
+		  				interval : function(){
+		  					//console.log("HEYDD");
+		  					//$('.flip-counter').html("TIME UP");
+		  				}
+		  			}
+		  		});
+//		  	clock.setTime(Math.ceil(timeToCountdown/1000));
+		  	//clock.setCountdown(true);
+	  	}
+		
+		
 	});
+
+
 	  function fillGameItemDetails(id, gameId,videoGameInstance,gameInstance){
 	  	videoGameInstance.getVideoGameItemDetails(gameId).then(function(result){
 							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
@@ -167,9 +188,9 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="./index.html#about">FAQ</a>
-					</li>
 
-					<li class="nav-item dropdown active" >
+
+					<li class="nav-item dropdown" >
 						
 						 <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           						Game Rooms
@@ -181,6 +202,15 @@
 					          <a class="dropdown-item" href="./PUBG.html">Buy PUBG Items</a>
 					          <a class="dropdown-item" style="color:red" href="./gameitems.html">Buy All Game Items</a>
 
+					        </div>
+					</li>
+					<li class="nav-item dropdown active" >
+						
+						 <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          						Power Zones
+        					</a>
+					        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					          <a class="dropdown-item" href="./CSGOPOW.html">Counter Strike PowerZone</a>
 					        </div>
 					</li>
 					<li class="nav-item">
@@ -203,6 +233,12 @@
 		<h2 class="heading">
 			Counter Strike Power Zone
 		</h2>
+		<p>Buy Counter Strike Weapons which can be used to Fight Battles </p>
+		<div class="row justify-content-center align-items-center">
+			<div class="container">
+				<div class="flip-counter clock " style=" padding-top:20px;width: 460px;    height: 116px;    margin: 0 auto;"> </div>
+			</div>
+		</div>
 		<br>
 		<div class="btn-group" role="group" aria-label="Basic example">
 			<!--button type="button" class="btn active mixitup-control-active" data-filter="all"> All
@@ -215,40 +251,40 @@
 			</button>
 		</div>
 		<div class="row mixit" id="container">
-			<div id="game-item" class="col-3 game">
+			<div id="game-item" class="col-3 game"><a class="games-link" href="CSGO.html">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Game Name Loading...</h3>
+				        	<h3 class="card-title movie-title"  style="color:#000">CS Game Room</h3>
 
   					</div>
 					<div class=" card-header">
-						<img src="./kotaku/16.png" class="game-img" alt="Game Image Loading...">
+						<img src="./kotaku/POWMessage.png" class="game-img" alt="Game Image Loading...">
 					</div>
                 			<div class="game-content">
                   				<div class="game-info">
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Game Price Loading...</span>
+                                				<span class="price" data-trueval="Game Price" style="color:#000">Counter Strike Game Room</span>
                                   			</div>
                 				</div>
-                                                <div class="buy-button">
+                                                <div class="buy-button" style="padding-bottom:5px;">
                         				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
-                        					Own the Game
+                        					Go to Game Room
                         				</button>
 
           					</div>
           					<div class="info-section">
-                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>
+                                    				<span style="padding-top:10px;margin-top:10px;">  	</span> 
                                     				
                                   		</div>
 	        			</div>
-      				</div>
+      				</div></a>
     			</div>
 			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Knife(CT)</h3>
+				        	<h3 class="card-title movie-title">Knife</h3>
 
   					</div><div>Melee / Knives</div>
 					<div class=" card-header">
@@ -278,7 +314,7 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Knife(T)</h3>
+				        	<h3 class="card-title movie-title">Bayonet</h3>
 
   					</div><div>Melee / Knives</div>
 					<div class=" card-header">
@@ -308,7 +344,7 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Bayonet</h3>
+				        	<h3 class="card-title movie-title">Gut Knife</h3>
 
   					</div><div>Melee / Knives</div>
 					<div class=" card-header">
@@ -931,6 +967,7 @@
 	<script src="./assets/mixitup.min.js"></script>
 	<script src="./assets/jquery.countTo.js"></script>
 	<script src="./assets/progressbar.min.js"></script>
+	<script src="./assets/flipclock.min.js"></script>
 	<script src="./assets/main.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114858671-1"></script>
