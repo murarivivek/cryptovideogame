@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Buy and trade Games on Blockchain.">
+	
+	<title>Crypto Kotaku - Buy and trade games on blockchain </title>
+	<link rel="stylesheet" href="./assets/bootstrap.min.css">
+	<link rel="stylesheet" href="./assets/pe-icon-7-stroke.css">
+	<link rel="stylesheet" href="./assets/font-awesome.min.css">
+	<link rel="stylesheet" href="./assets/lightbox.min.css">
+	<link rel="stylesheet" href="./assets/style.css">
+	<script
+  	src="https://code.jquery.com/jquery-3.3.1.min.js"
+  	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  	crossorigin="anonymous"></script>
+	<script src="./assets/web3.min.js"></script>
+	<script src="./assets/truffle-contract.js"></script>
+	<script src="./assets/app.js"></script>
+	<script type="text/javascript">
+	function showBuyModal(event){
+	    event.preventDefault();
+	    var price = Number($(event.target).attr('data-id'));
+		var gameId = parseInt($(event.target).attr('game-id'));
+	    $("#metamaskModalVerticalLabel").text("Buy " + $(event.target).parent().parent().parent().find('.card-title').text() + " Game Item");
+	    $("#gameItemBuyPrice").val(price);
+	    $("#buyGameItem").attr("data-id", gameId);
+	    $('#noMetaMaskAlert').hide();
+	    $('#metaMaskLockedAlert').hide();
+	    $('#userDeniedTransaction').hide();
+	    $('#transactionSuccess').hide();
+	    $("#metamaskModal").modal();
+	  }
+	  gamesMap = [];
+	  maxId=49;
+	$(function() {
+
+		$('.game-img:eq(0)').attr("src",'./CSGOPOW/0.png');
+		$('.game-img:eq(1)').attr("src",'./CSGOPOW/1.png');
+		$('.game-img:eq(2)').attr("src",'./CSGOPOW/2.png');
+		$('.game-img:eq(3)').attr("src",'./CSGOPOW/3.png');
+		$('.game-img:eq(4)').attr("src",'./CSGOPOW/4.png');
+		$('.game-img:eq(5)').attr("src",'./CSGOPOW/5.png');
+		$('.game-img:eq(6)').attr("src",'./CSGOPOW/6.png');
+		$('.game-img:eq(7)').attr("src",'./CSGOPOW/7.png');
+		$('.game-img:eq(8)').attr("src",'./CSGOPOW/8.png');
+		$('.game-img:eq(9)').attr("src",'./CSGOPOW/9.png');
+		$('.game-img:eq(10)').attr("src",'./CSGOPOW/10.png');
+		$('.game-img:eq(11)').attr("src",'./CSGOPOW/11.png');
+		$('.game-img:eq(12)').attr("src",'./CSGOPOW/12.png');
+		$('.game-img:eq(13)').attr("src",'./CSGOPOW/13.png');
+		$('.game-img:eq(14)').attr("src",'./CSGOPOW/14.png');
+		$('.game-img:eq(15)').attr("src",'./CSGOPOW/15.png');
+		$('.game-img:eq(16)').attr("src",'./CSGOPOW/16.png');
+		$('.game-img:eq(17)').attr("src",'./CSGOPOW/17.png');
+		$('.game-img:eq(18)').attr("src",'./CSGOPOW/18.png');
+		$('.game-img:eq(19)').attr("src",'./CSGOPOW/19.png');
+
+	  $(document).ready(function() {
+	        App.init(function(){
+	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
+	        		App.contracts.VideoGame.deployed().then(function(gameInstance){
+		       			
+	        			//fillGameDetails(3, instance);
+	        		})
+
+	        	});
+	        	if(App.metamaskInstalled){
+			      web3.eth.getAccounts(function(error, accounts) {
+			        var account = accounts[0];
+			        $('#address').text(account.substring(0,8));
+			        $('#address').removeClass('not-connected');
+			        $('#address').addClass('connected');
+			      });
+			    }else{
+			      $('#address').text('Not Connected');
+			      $('#address').removeClass('connected');
+			      $('#address').addClass('not-connected');
+			    }
+	  	});
+	});
+	  function fillGameItemDetails(id, gameId,videoGameInstance,gameInstance){
+	  	videoGameInstance.getVideoGameItemDetails(gameId).then(function(result){
+							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
+							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+							//console.log(JSON.stringify(result) + " " +id + " " + gameId);
+							$('.price:eq('+id+')').text("Current Price : "+price+" Ξ");
+							$('.currowner:eq('+id+')').text(result[1]);							
+							$('.card-title:eq('+id+')').text(result[0]);
+							setGameName(id,Number(result[3]),gameInstance);
+							$('.price:eq('+id+')').attr("data-trueval",price);
+							$('.mix:eq('+(id-1)+')').attr("data-order",price);
+							if(id==(maxId+1)){
+
+							    var mixer = mixitup('#container', {
+							        animation: {
+							            duration: 300
+							        }
+							});
+								mixer.sort('random').then(function(state) {    });
+							}
+							$('.btn-buy:eq('+id+')').attr("data-id",price);
+							$('.btn-buy:eq('+id+')').attr("game-id",gameId);
+						});
+	  }
+
+	  function setGameName(id,gameId,gameInstance){
+	  	if(!gamesMap[gameId]){
+	  		gameInstance.getVideoGameDetails(gameId).then(function(result){
+	  			gamesMap[gameId] = result[0];
+	  			$('.game-name:eq('+id+')').text(result[0]);
+	  		});	
+	  	}else{
+	  		$('.game-name:eq('+id+')').text(gamesMap[gameId]);
+	  	}
+	  
+	  }
+	  function fillGameDetails(id, videoGameInstance){
+	  	videoGameInstance.getVideoGameDetails(id).then(function(result){
+							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
+							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
+							$('.price:eq('+0+')').text(price);
+							$('.currowner:eq('+0+')').text(result[1]);
+							$('.card-title:eq('+0+')').text(result[0]);
+							$('.price:eq('+0+')').attr("data-trueval",price);
+							/*$('.mix:eq('+0+')').attr("data-order",price);*/
+							$('.btn-buy:eq('+0+')').attr("data-id",price);
+							$('.btn-buy:eq('+0+')').attr("game-id",id);
+						});
+	  }
+	});
+	</script>
+
+	<link rel="icon" href="http://placehold.it/250x250">
+</head>
+<body style="">
+	<!--div class="ribbon"><span>Popular</span></div-->
+
+	<!-- start loading page -->
+	
+	
+
+	<!-- end loading page -->
+<div id="scroller">
+  <div id="scroller1">
+    Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUBG, CS, DOTA and POKEMON Game Rooms Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;
+  </div>
+  <div id="scroller2">
+    Perpetual 10% dividends for the Game owners on purchase of any Game Item  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUBG, CS, DOTA and POKEMON Game Rooms Launched &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Game Rooms coming soon  &nbsp;&nbsp;
+  </div></div>
+	<!-- start navbar section -->
+
+	
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #2e2e2e;color: #fff;">
+			
+		<div class="container">
+			<a class="navbar-brand">Crypto Kotaku</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="./index.html#portfolio">Buy Games</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="./index.html#about">FAQ</a>
+					</li>
+
+					<li class="nav-item dropdown active" >
+						
+						 <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          						Game Rooms
+        					</a>
+					        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					          <a class="dropdown-item" href="./CSGO.html">Buy Counter Strike Items</a>
+					          <a class="dropdown-item" href="./DOTA2.html">Buy DOTA Items</a>
+					          <a class="dropdown-item" href="./POKEMON.html">Buy POKEMON Items</a>
+					          <a class="dropdown-item" href="./PUBG.html">Buy PUBG Items</a>
+					          <a class="dropdown-item" style="color:red" href="./gameitems.html">Buy All Game Items</a>
+
+					        </div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="roadmap.html">ROADMAP</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link not-connected" href="" id="address">Not Connected</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- end navbar section -->
+
+
+	<!-- start portfolio section -->
+
+	<section id="portfolio" class="text-center">
+		<h2 class="heading">
+			Buy Game Items
+		</h2>
+		<br>
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<!--button type="button" class="btn active mixitup-control-active" data-filter="all"> All
+			</button-->
+			<button type="button" class="btn" data-sort="order:descending"> High to Low
+			</button>
+			<button type="button" class="btn" data-sort="order:asc"> Low to High
+			</button>
+			<button type="button" class="btn randomsort" data-sort="random"> Random
+			</button>
+		</div>
+		<div class="row mixit" id="container">
+			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Knife(CT)</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Knife(T)</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"> </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Bayonet</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"> </span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">P-2000</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">UPS-S</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Glock-18</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Nova</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">XM1014</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">MAG-7</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">MP9</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">MAC-10</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">PP-Bizon</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">FAMAS</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Galil AR</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">M4A4</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">SSG 08</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">AWP</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">SCAR-20</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">M249</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+    			<div id="game-item" class="col-3 game">
+      				<div class="card-item">
+					<div class="game-header text-center">
+				        	<h3 class="card-title movie-title">Negev</h3>
+
+  					</div>
+					<div class=" card-header">
+						<img class="game-img" alt="Game Image Loading...">
+					</div>
+                			<div class="game-content">
+                  				<div class="game-info">
+                    					
+					                <div class="info-section">
+                                				<label>Price</label>  
+                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                  			</div>
+                				</div>
+                                                <div class="buy-button">
+                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
+                        					Own the Game
+                        				</button>
+
+          					</div>
+          					<div class="info-section">
+                                    				<span style="padding-top:10px;">Current Owner	</span> <br><span style="font-size: 0.6em;" class="currowner"></span>
+                                    				
+                                  		</div>
+	        			</div>
+      				</div>
+    			</div>
+
+    			
+		</div>
+	</section>
+
+	<!-- end portfolio section -->
+
+	
+
+<!-- modal section start -->
+<div class="modal" id="metamaskModal" tabindex="-1" role="dialog" aria-labelledby="metamaskModalVerticalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="metamaskModalVerticalLabel">Buy Game Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div><div class="text-center"><label class="label">Game Item Price (ETH)</label><div><input type="number" class="form-control" id="gameItemBuyPrice" placeholder="Game Item Price (ETH)" value=""></div></div><a class="d-block mx-auto" id="buyGameItem" style="max-width: 350px; margin-top:5px; cursor: pointer;"><img class="w-100" src="/assets/metamask-pay.png"></a></div>
+        <div class="alert alert-warning" role="alert" id="noMetaMaskAlert" style="display:none;">
+          Please install the <a href="https://metamask.io/" target="_blank">MetaMask</a> secure wallet in order to transact.
+        </div>
+        <div class="alert alert-warning" role="alert" id="metaMaskLockedAlert" style="display:none;">
+          Metamask is locked. Please unlock and refresh this page. Or you are on wrong network on MetaMask. Please change to MainNet and refresh this page.
+        </div>
+        <div class="alert alert-warning" role="alert" id="userDeniedTransaction" style="display:none;">
+          You cancelled the transaction or your connection was lost before the transaction finalized. Please try again.
+        </div>
+        <div class="alert alert-warning" role="alert" id="transactionSuccess" style="display:none;">
+          Your transaction has been submitted.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span>Transactions can sometimes take few minutes to process. By the time you buy this Game Item, it is possible that the price may be higher than shown here. You can submit higher amount to increase chances of successful transaction. If the bid is higher than current price, the difference will be refunded automatically.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+	<!-- modal section end -->
+
+	
+
+	<!-- start footer section -->
+
+
+	<footer>
+		<div class="links">
+			<div class="container">
+				<div class="footer-select">
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+							<div>
+								<ul class="row text-center" style="list-style: inside;">
+									<li class="col-3 mx-auto"><a href="https://etherscan.io/address/0xdec14d8f4da25108fd0d32bf2decd9538564d069" class="text-center" target="_blank">Games Contract Link</a></li>
+									<li class="col-3 mx-auto"><a href="https://etherscan.io/address/0xd2606c9bc5efe092a8925e7d6ae2f63a84c5fdea" class="text-center" target="_blank">Game Items Contract Link</a></li>
+									<li class="col-3 mx-auto"><a href="https://discord.gg/7352gvN" class="text-center"  target="_blank">Discord Link</a></li>
+									<li class="col-3 mx-auto"><a href="mailto:cryptokotaku@gmail.com" class="text-center">Contact Us</a></li>
+								</ul>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="copyright text-center">
+			<p>All Rights Reserved © 2018 
+			
+			</p>
+		</div>
+	</footer>
+
+	<!-- end footer section -->
+
+	<!-- start scripts import  -->
+
+	<script src="./assets/jquery-3.2.1.min.js"></script>
+	<script src="./assets/popper.min.js"></script>
+	<script src="./assets/bootstrap.min.js"></script>
+	<!--script src="./assets/lightbox.min.js"></script-->
+	<script src="./assets/mixitup.min.js"></script>
+	<script src="./assets/jquery.countTo.js"></script>
+	<script src="./assets/progressbar.min.js"></script>
+	<script src="./assets/main.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114858671-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-114858671-1');
+</script>
+	<!-- end scripts import  -->
+	</body></html>
