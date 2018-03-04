@@ -32,8 +32,7 @@
 	    $('#transactionSuccess').hide();
 	    $("#metamaskModal").modal();
 	  }
-	  gamesMap = [];
-	  maxId=49;
+	  gameItemsMap = [];
 	$(function() {
 
 		$('.game-img:eq(1)').attr("src",'./CSGOPOW/0.png');
@@ -59,10 +58,29 @@
 
 	  $(document).ready(function() {
 	        App.init(function(){
-	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
-	        		App.contracts.VideoGame.deployed().then(function(gameInstance){
-		       			
-	        			//fillGameDetails(3, instance);
+	        	App.contracts.PowZone.deployed().then(function(instance) {
+	        		App.contracts.VideoGameItem.deployed().then(function(gameItemInstance){
+		       			fillPowDetails(1, 0,instance,gameItemInstance);
+		       			fillPowDetails(2, 1,instance,gameItemInstance);
+		       			fillPowDetails(3, 2,instance,gameItemInstance);
+		       			fillPowDetails(4, 3,instance,gameItemInstance);
+		       			fillPowDetails(5, 4,instance,gameItemInstance);
+		       			fillPowDetails(6, 5,instance,gameItemInstance);
+		       			/*fillPowDetails(7, 6,instance,gameItemInstance);
+		       			fillPowDetails(8, 7,instance,gameItemInstance);
+		       			fillPowDetails(9, 8,instance,gameItemInstance);
+		       			fillPowDetails(10, 9,instance,gameItemInstance);
+		       			fillPowDetails(11, 10,instance,gameItemInstance);
+		       			fillPowDetails(12, 11,instance,gameItemInstance);
+		       			fillPowDetails(13, 12,instance,gameItemInstance);
+		       			fillPowDetails(14, 13,instance,gameItemInstance);
+		       			fillPowDetails(15, 14,instance,gameItemInstance);
+		       			fillPowDetails(16, 15,instance,gameItemInstance);
+		       			fillPowDetails(17, 16,instance,gameItemInstance);
+		       			fillPowDetails(18, 17,instance,gameItemInstance);
+		       			fillPowDetails(19, 18,instance,gameItemInstance);
+		       			fillPowDetails(20, 19,instance,gameItemInstance);*/
+	        			
 	        		})
 
 	        	});
@@ -78,6 +96,27 @@
 			      $('#address').removeClass('connected');
 			      $('#address').addClass('not-connected');
 			    }
+			    $(document).on('click', '.btn-buy', showBuyModal);
+			    $("#buyGameItem").click(function(event){
+			        var price = Number($("#gameItemBuyPrice").val());
+        			var gameId = parseInt($("#buyGameItem").attr("data-id"));
+        			web3.eth.getAccounts(function(error, accounts) {
+						if (error) {
+						console.log(error);
+						}
+				        var account = accounts[0];
+				      	App.contracts.PowZone.deployed().then(function(instance) {
+					        powInstance = instance;
+					        return powInstance.purchase(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+					          	console.log("transaction submitted");
+					          	return;
+					        }).catch(function(err){
+					          console.log("transaction failed");
+					          return;
+					        });
+						});
+				    });
+			    });
 	  	});
 	  	var timeToCountdown = (new Date("Sun Mar 04 2018 17:00:00 GMT").getTime()) - (new Date().getTime());
 	  	//console.log(timeToCountdown);
@@ -99,54 +138,30 @@
 		
 	});
 
-
-	  function fillGameItemDetails(id, gameId,videoGameInstance,gameInstance){
-	  	videoGameInstance.getVideoGameItemDetails(gameId).then(function(result){
+	  function setGameName(id,gameItemId,gameItemInstance){
+	  	if(!gameItemsMap[gameItemId]){
+	  		gameItemInstance.getVideoGameItemDetails(gameItemId).then(function(result){
+	  			gameItemsMap[gameItemId] = result[0];
+	  			$('.game-item-name:eq('+(id-1)+')').text(result[0]);
+	  		});	
+	  	}else{
+	  		$('.game-item-name:eq('+(id-1)+')').text(gameItemsMap[gameItemId]);
+	  	}
+	  
+	  }
+	  function fillPowDetails(id, powId, powInstance, gameItemInstance){
+	  	powInstance.getPow(powId).then(function(result){
 							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
 							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
 							//console.log(JSON.stringify(result) + " " +id + " " + gameId);
 							$('.price:eq('+id+')').text("Current Price : "+price+" Ξ");
-							$('.currowner:eq('+id+')').text(result[1]);							
-							$('.card-title:eq('+id+')').text(result[0]);
-							setGameName(id,Number(result[3]),gameInstance);
+							$('.currowner:eq('+id+')').text(result[3]);							
+							$('.card-title:eq('+id+')').text(result[1]);
+							setGameName(id,Number(result[5]),gameItemInstance);
 							$('.price:eq('+id+')').attr("data-trueval",price);
 							$('.mix:eq('+(id-1)+')').attr("data-order",price);
-							if(id==(maxId+1)){
-
-							    var mixer = mixitup('#container', {
-							        animation: {
-							            duration: 300
-							        }
-							});
-								mixer.sort('random').then(function(state) {    });
-							}
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
-							$('.btn-buy:eq('+id+')').attr("game-id",gameId);
-						});
-	  }
-
-	  function setGameName(id,gameId,gameInstance){
-	  	if(!gamesMap[gameId]){
-	  		gameInstance.getVideoGameDetails(gameId).then(function(result){
-	  			gamesMap[gameId] = result[0];
-	  			$('.game-name:eq('+id+')').text(result[0]);
-	  		});	
-	  	}else{
-	  		$('.game-name:eq('+id+')').text(gamesMap[gameId]);
-	  	}
-	  
-	  }
-	  function fillGameDetails(id, videoGameInstance){
-	  	videoGameInstance.getVideoGameDetails(id).then(function(result){
-							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
-							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
-							$('.price:eq('+0+')').text(price);
-							$('.currowner:eq('+0+')').text(result[1]);
-							$('.card-title:eq('+0+')').text(result[0]);
-							$('.price:eq('+0+')').attr("data-trueval",price);
-							/*$('.mix:eq('+0+')').attr("data-order",price);*/
-							$('.btn-buy:eq('+0+')').attr("data-id",price);
-							$('.btn-buy:eq('+0+')').attr("game-id",id);
+							$('.btn-buy:eq('+id+')').attr("game-id",powId);
 						});
 	  }
 	});
@@ -284,9 +299,9 @@
 			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Knife</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Melee / Knives</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -295,7 +310,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -314,9 +329,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Bayonet</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Melee / Knives</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -325,7 +340,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -344,9 +359,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Gut Knife</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Melee / Knives</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -355,7 +370,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -374,9 +389,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">P-2000</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Pistols / Hand Guns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -385,7 +400,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -404,9 +419,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">UPS-S</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Pistols / Hand Guns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -415,7 +430,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -434,9 +449,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Glock-18</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Pistols / Hand Guns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -445,7 +460,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -464,9 +479,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Nova</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Shotguns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -475,7 +490,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -494,9 +509,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">XM1014</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Shotguns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -505,7 +520,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -524,9 +539,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">MAG-7</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Shotguns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -535,7 +550,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -554,9 +569,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">MP9</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Submachine Guns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -565,7 +580,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -584,9 +599,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">MAC-10</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Submachine Guns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -595,7 +610,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -614,9 +629,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">PP-Bizon</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Submachine Guns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -625,7 +640,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -644,9 +659,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">FAMAS</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Rifles</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -655,7 +670,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -674,9 +689,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Galil AR</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Rifles</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -685,7 +700,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -704,9 +719,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">M4A4</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Rifles</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -715,7 +730,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -734,9 +749,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">SSG 08</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Sniper Rifles</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -745,7 +760,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -764,9 +779,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">AWP</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Sniper Rifles</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -775,7 +790,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -794,9 +809,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">SCAR-20</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Sniper Rifles</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -805,7 +820,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -824,9 +839,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">M249</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Machine Guns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -835,7 +850,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
@@ -854,9 +869,9 @@
     			<div id="game-item" class="col-3 game">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title">Negev</h3>
+				        	<h3 class="card-title movie-title">Pow Name Loading...</h3>
 
-  					</div><div>Machine Guns</div>
+  					</div><div class="game-item-name">Game Item Name Loading...</div>
 					<div class=" card-header">
 						<img class="game-img" alt="Game Image Loading...">
 					</div>
@@ -865,7 +880,7 @@
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price">Price Coming Soon</span>
+                                				<span class="price" data-trueval="Game Price">Price Loading...</span>
                                   			</div>
                 				</div>
                                                 <div class="buy-button">
