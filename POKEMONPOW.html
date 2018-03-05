@@ -10,13 +10,14 @@
 	<link rel="stylesheet" href="./assets/font-awesome.min.css">
 	<link rel="stylesheet" href="./assets/lightbox.min.css">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/flipclock.css">
 	<script
   	src="https://code.jquery.com/jquery-3.3.1.min.js"
   	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   	crossorigin="anonymous"></script>
 	<script src="./assets/web3.min.js"></script>
 	<script src="./assets/truffle-contract.js"></script>
-	<script src="./assets/app.js"></script>
+	<script src="./assets/app.js?id=nooo"></script>
 	<script type="text/javascript">
 	function showBuyModal(event){
 	    event.preventDefault();
@@ -31,120 +32,115 @@
 	    $('#transactionSuccess').hide();
 	    $("#metamaskModal").modal();
 	  }
-	  gamesMap = [];
-	  maxId=49;
-	$(function() {
+	  gameItemsMap = [];
+	  itemNames = [
+	  		{	name : "Charizard", 
+				type : ["Fire Type","Flying Type"]
+			},
+	  		{	name : "Pikachu", 
+				type : ["Electric Type"]
+			},
+	  		{	name : "Mewtwo", 
+				type : ["Psychic Type"]
+			},
+	  		{	name : "Eevee", 
+				type : ["Normal Type"]
+			},
+	  		{	name : "Gengar", 
+				type : ["Ghost Type", "Poison Type"]
+			},
+	  		{	name : "Dragonite", 
+				type : ["Dragon Type","Flying Type"]
+			},
+	  		{	name : "Venusaur", 
+				type : ["Grass Type","Poison Type"]
+			},
+	  		{	name : "Decidueye", 
+				type : ["Grass Type","Ghost Type"]
+			},
+	  		{	name : "Reshiram", 
+				type : ["Dragon Type","Fire Type"]
+			},
+	  		{	name : "Greninja", 
+				type : ["Water Type","Dark Type"]
+			},
+	  		{	name : "Omanyte", 
+				type : ["Rock Type","Water Type"]
+			},
+	  		{	name : "Weavile", 
+				type : ["Dark Type","Ice Type"]
+			},
+	  		{	name : "Diancie", 
+				type : ["Rock Type","Fairy Type"]
+			},
+	  		{	name : "Mamoswine", 
+				type : ["Ice Type","Ground Type"]
+			},
+	  		{	name : "Ribombee", 
+				type : ["Bug Type","Fairy Type"]
+			},
+	  		{	name : "Steelix", 
+				type : ["Steel Type","Ground Type"]
+			},
+	  		{	name : "Genesect", 
+				type : ["Bug Type","Steel Type"]
+			},
+	  		{	name : "Primeape", 
+				type : ["Fighting Type"]
+			}
 
-		for (var i = maxId; i >= 0; i--) {
-			var html='			<div id="game-item" class="col-3 mix">      				<div class="card-item">					<div class="game-header text-center">				        	<h3 class="card-title movie-title">Game Name Loading...</h3>  					</div><div class="game-name"></div>					<div class=" card-header">						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">					</div>                			<div class="game-content">                  				<div class="game-info">                    					<div class="info-section">                                				<label>Price</label>                                  				<span class="price" data-trueval="Game Price">                                					Game Price Loading...                                				</span>                                  			</div>                				</div>                                                <div class="buy-button">                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">                        					Own the Token                        				</button>          					</div>          					<div class="info-section">                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>                                    				                                  		</div>	        			</div>      				</div>    			</div>';
+		];
+	$(function() {
+		
+		for (ide=0;ide<itemNames.length;ide++) {
+			var html='			<div id="game-item" class="col-3 mix">      				<div class="card-item">					<div class="game-header text-center">				        	<h3 class="card-title movie-title">'+itemNames[ide].name+'</h3>  					</div><div class="game-item-name">'+itemNames[ide].type+'</div>					<div class=" card-header">						<img src="http://placehold.it/400x400" class="game-img" alt="Game Image Loading...">					</div>                			<div class="game-content">                  				<div class="game-info">                    					<div class="info-section">                                				<label>Price</label>                                  				<span class="price" data-trueval="Game Price">                                					Game Price Loading...                                				</span>                                  			</div>                				</div>                                                <div class="buy-button">                        				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="54">                        					Own the Token                        				</button>          					</div>          					<div class="info-section">                                    				<span style="padding-top:10px;">Current Owner	</span> <br/><span style="font-size: 0.6em;" class="currowner"> Current Owner Loading </span>                                    				                                  		</div>	        			</div>      				</div>    			</div>';
 			$('.mixit').append(html);
 		}
-		$('.game-img:eq(1)').attr("src",'./CSGO/0.png');
-		$('.game-img:eq(2)').attr("src",'./CSGO/1.png');
-		$('.game-img:eq(3)').attr("src",'./CSGO/2.png');
-		$('.game-img:eq(4)').attr("src",'./CSGO/3.png');
-		$('.game-img:eq(5)').attr("src",'./CSGO/4.png');
-		$('.game-img:eq(6)').attr("src",'./CSGO/5.png');
-		$('.game-img:eq(7)').attr("src",'./CSGO/6.png');
-		$('.game-img:eq(8)').attr("src",'./DOTA2/0.jpg');
-		$('.game-img:eq(9)').attr("src",'./DOTA2/1.jpg');
-		$('.game-img:eq(10)').attr("src",'./DOTA2/2.jpg');
-		$('.game-img:eq(11)').attr("src",'./DOTA2/3.jpg');
-		$('.game-img:eq(12)').attr("src",'./DOTA2/4.jpg');
-		$('.game-img:eq(13)').attr("src",'./DOTA2/5.jpg');
-		$('.game-img:eq(14)').attr("src",'./DOTA2/6.jpg');
-		$('.game-img:eq(15)').attr("src",'./DOTA2/7.jpg');
-		$('.game-img:eq(16)').attr("src",'./DOTA2/8.jpg');
-		$('.game-img:eq(17)').attr("src",'./DOTA2/9.jpg');
-		$('.game-img:eq(18)').attr("src",'./DOTA2/10.jpg');
-		$('.game-img:eq(19)').attr("src",'./DOTA2/11.jpg');
-		$('.game-img:eq(20)').attr("src",'./DOTA2/12.jpg');
-		$('.game-img:eq(21)').attr("src",'./DOTA2/13.jpg');
-		$('.game-img:eq(22)').attr("src",'./DOTA2/14.jpg');
-		$('.game-img:eq(23)').attr("src",'./DOTA2/15.jpg');
-		$('.game-img:eq(24)').attr("src",'./DOTA2/16.jpg');
-		$('.game-img:eq(25)').attr("src",'./DOTA2/17.jpg');
-		$('.game-img:eq(26)').attr("src",'./DOTA2/18.jpg');
-		$('.game-img:eq(27)').attr("src",'./POKEMON/0.png');
-		$('.game-img:eq(28)').attr("src",'./POKEMON/1.png');
-		$('.game-img:eq(29)').attr("src",'./POKEMON/2.png');
-		$('.game-img:eq(30)').attr("src",'./POKEMON/3.png');
-		$('.game-img:eq(31)').attr("src",'./POKEMON/4.png');
-		$('.game-img:eq(32)').attr("src",'./POKEMON/5.png');
-		$('.game-img:eq(33)').attr("src",'./POKEMON/6.png');
-		$('.game-img:eq(34)').attr("src",'./POKEMON/7.png');
-		$('.game-img:eq(35)').attr("src",'./POKEMON/8.png');
-		$('.game-img:eq(36)').attr("src",'./POKEMON/9.png');
-		$('.game-img:eq(37)').attr("src",'./POKEMON/10.png');
-		$('.game-img:eq(38)').attr("src",'./POKEMON/11.png');
-		$('.game-img:eq(39)').attr("src",'./POKEMON/12.png');
-		$('.game-img:eq(40)').attr("src",'./POKEMON/13.png');
-		$('.game-img:eq(41)').attr("src",'./POKEMON/14.png');
-		$('.game-img:eq(42)').attr("src",'./POKEMON/15.png');
-		$('.game-img:eq(43)').attr("src",'./POKEMON/16.png');
-		$('.game-img:eq(44)').attr("src",'./POKEMON/17.png');
-		$('.game-img:eq(45)').attr("src",'./PUBG/0.png');
-		$('.game-img:eq(46)').attr("src",'./PUBG/1.png');
-		$('.game-img:eq(47)').attr("src",'./PUBG/2.png');
-		$('.game-img:eq(48)').attr("src",'./PUBG/3.png');
-		$('.game-img:eq(49)').attr("src",'./PUBG/4.png');
-		$('.game-img:eq(50)').attr("src",'./PUBG/5.png');
+		$('.game-img:eq(1)').attr("src",'./POKEMONPOW/0.png');
+		$('.game-img:eq(2)').attr("src",'./POKEMONPOW/1.png');
+		$('.game-img:eq(3)').attr("src",'./POKEMONPOW/2.png');
+		$('.game-img:eq(4)').attr("src",'./POKEMONPOW/3.png');
+		$('.game-img:eq(5)').attr("src",'./POKEMONPOW/4.png');
+		$('.game-img:eq(6)').attr("src",'./POKEMONPOW/5.png');
+		$('.game-img:eq(7)').attr("src",'./POKEMONPOW/6.png');
+		$('.game-img:eq(8)').attr("src",'./POKEMONPOW/7.png');
+		$('.game-img:eq(9)').attr("src",'./POKEMONPOW/8.png');
+		$('.game-img:eq(10)').attr("src",'./POKEMONPOW/9.png');
+		$('.game-img:eq(11)').attr("src",'./POKEMONPOW/10.png');
+		$('.game-img:eq(12)').attr("src",'./POKEMONPOW/11.png');
+		$('.game-img:eq(13)').attr("src",'./POKEMONPOW/12.png');
+		$('.game-img:eq(14)').attr("src",'./POKEMONPOW/13.png');
+		$('.game-img:eq(15)').attr("src",'./POKEMONPOW/14.png');
+		$('.game-img:eq(16)').attr("src",'./POKEMONPOW/15.png');
+		$('.game-img:eq(17)').attr("src",'./POKEMONPOW/16.png');
+		$('.game-img:eq(18)').attr("src",'./POKEMONPOW/17.png');
+
+		
+			
 
 	  $(document).ready(function() {
 	        App.init(function(){
-	        	App.contracts.VideoGameItem.deployed().then(function(instance) {
-	        		App.contracts.VideoGame.deployed().then(function(gameInstance){
-		       			fillGameItemDetails(1, 0,instance,gameInstance);
-		        		fillGameItemDetails(2, 1,instance,gameInstance);
-		        		fillGameItemDetails(3, 2,instance,gameInstance);
-		        		fillGameItemDetails(4, 3,instance,gameInstance);
-		        		fillGameItemDetails(5, 4,instance,gameInstance);
-		        		fillGameItemDetails(6, 5,instance,gameInstance);
-		        		fillGameItemDetails(7, 6,instance,gameInstance);
-		        		fillGameItemDetails(8, 7,instance,gameInstance);
-		        		fillGameItemDetails(9, 8,instance,gameInstance);
-		        		fillGameItemDetails(10, 9,instance,gameInstance);
-		        		fillGameItemDetails(11, 10,instance,gameInstance);
-		        		fillGameItemDetails(12, 11,instance,gameInstance);
-		        		fillGameItemDetails(13, 12,instance,gameInstance);
-		        		fillGameItemDetails(14, 13,instance,gameInstance);
-		        		fillGameItemDetails(15, 14,instance,gameInstance);
-		        		fillGameItemDetails(16, 15,instance,gameInstance);
-		        		fillGameItemDetails(17, 16,instance,gameInstance);
-		        		fillGameItemDetails(18, 17,instance,gameInstance);
-		        		fillGameItemDetails(19, 18,instance,gameInstance);
-		        		fillGameItemDetails(20, 19,instance,gameInstance);
-		        		fillGameItemDetails(21, 20,instance,gameInstance);
-		        		fillGameItemDetails(22, 21,instance,gameInstance);
-		        		fillGameItemDetails(23, 22,instance,gameInstance);
-		        		fillGameItemDetails(24, 23,instance,gameInstance);
-		        		fillGameItemDetails(25, 24,instance,gameInstance);
-		        		fillGameItemDetails(26, 25,instance,gameInstance);
-		        		fillGameItemDetails(27, 26,instance,gameInstance);
-		        		fillGameItemDetails(28, 27,instance,gameInstance);
-		        		fillGameItemDetails(29, 28,instance,gameInstance);
-		        		fillGameItemDetails(30, 29,instance,gameInstance);
-		        		fillGameItemDetails(31, 30,instance,gameInstance);
-		        		fillGameItemDetails(32, 31,instance,gameInstance);
-		        		fillGameItemDetails(33, 32,instance,gameInstance);
-		        		fillGameItemDetails(34, 33,instance,gameInstance);
-		        		fillGameItemDetails(35, 34,instance,gameInstance);
-		        		fillGameItemDetails(36, 35,instance,gameInstance);
-		        		fillGameItemDetails(37, 36,instance,gameInstance);
-		        		fillGameItemDetails(38, 37,instance,gameInstance);
-		        		fillGameItemDetails(39, 38,instance,gameInstance);
-		        		fillGameItemDetails(40, 39,instance,gameInstance);
-		        		fillGameItemDetails(41, 40,instance,gameInstance);
-		        		fillGameItemDetails(42, 41,instance,gameInstance);
-		        		fillGameItemDetails(43, 42,instance,gameInstance);
-		        		fillGameItemDetails(44, 43,instance,gameInstance);
-		        		fillGameItemDetails(45, 44,instance,gameInstance);
-		        		fillGameItemDetails(46, 45,instance,gameInstance);
-		        		fillGameItemDetails(47, 46,instance,gameInstance);
-		        		fillGameItemDetails(48, 47,instance,gameInstance);
-		        		fillGameItemDetails(49, 48,instance,gameInstance);
-		        		fillGameItemDetails(50, 49,instance,gameInstance);
-	        			//fillGameDetails(3, instance);
+	        	App.contracts.PokemonPow.deployed().then(function(instance) {
+	        		App.contracts.VideoGameItem.deployed().then(function(gameItemInstance){
+		       			fillPowDetails(1, 0,instance,gameItemInstance);
+		       			fillPowDetails(2, 1,instance,gameItemInstance);
+		       			fillPowDetails(3, 2,instance,gameItemInstance);
+		       			fillPowDetails(4, 3,instance,gameItemInstance);
+		       			fillPowDetails(5, 4,instance,gameItemInstance);
+		       			fillPowDetails(6, 5,instance,gameItemInstance);
+		       			fillPowDetails(7, 6,instance,gameItemInstance);
+		       			fillPowDetails(8, 7,instance,gameItemInstance);
+		       			fillPowDetails(9, 8,instance,gameItemInstance);
+		       			fillPowDetails(10, 9,instance,gameItemInstance);
+		       			fillPowDetails(11, 10,instance,gameItemInstance);
+		       			fillPowDetails(12, 11,instance,gameItemInstance);
+		       			fillPowDetails(13, 12,instance,gameItemInstance);
+		       			fillPowDetails(14, 13,instance,gameItemInstance);
+		       			fillPowDetails(15, 14,instance,gameItemInstance);
+		       			fillPowDetails(16, 15,instance,gameItemInstance);
+		       			fillPowDetails(17, 16,instance,gameItemInstance);
+		       			fillPowDetails(18, 17,instance,gameItemInstance);
+	        			
 	        		})
 
 	        	});
@@ -160,7 +156,7 @@
 			      $('#address').removeClass('connected');
 			      $('#address').addClass('not-connected');
 			    }
-			    $(document).on('click', '.btn-buy:not(#gameButton)', showBuyModal);
+			    $(document).on('click', '.btn-buy', showBuyModal);
 			    $("#buyGameItem").click(function(event){
 			        var price = Number($("#gameItemBuyPrice").val());
         			var gameId = parseInt($("#buyGameItem").attr("data-id"));
@@ -169,9 +165,9 @@
 						console.log(error);
 						}
 				        var account = accounts[0];
-				      	App.contracts.VideoGameItem.deployed().then(function(instance) {
-					        gameInstance = instance;
-					        return gameInstance.purchaseVideoGameItem(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
+				      	App.contracts.PowZone.deployed().then(function(instance) {
+					        powInstance = instance;
+					        return powInstance.purchase(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
 					          	console.log("transaction submitted");
 					          	return;
 					        }).catch(function(err){
@@ -181,77 +177,51 @@
 						});
 				    });
 			    });
-			    $("#gameButton").click(function(event){
-        			var price = Number($(event.target).attr('data-id'));
-        			var gameId = parseInt($(event.target).attr('game-id'));
-        			web3.eth.getAccounts(function(error, accounts) {
-						if (error) {
-							console.log(error);
-						}
-
-						var account = accounts[0];
-
-				      	App.contracts.VideoGame.deployed().then(function(instance) {
-					        gameInstance = instance;
-					        return gameInstance.purchaseVideoGame(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
-					          	console.log("transaction submitted");
-					          	return;
-					        }).catch(function(err){
-					          console.log("transaction failed");
-					          return;
-					        });
-				      	});
-				    });
-    			});
 	  	});
+	  	var timeToCountdown = (new Date("Mon Mar 05 2018 18:30:00 GMT").getTime()) - (new Date().getTime());
+	  	//console.log(timeToCountdown);
+	  	if(timeToCountdown>0){
+		  	clock  = $('.flip-counter').FlipClock(Math.ceil(timeToCountdown/1000),{
+		  			countdown: true,
+		  			autostart: true,
+		  			callbacks:{
+		  				interval : function(){
+		  					//console.log("HEYDD");
+		  					//$('.flip-counter').html("TIME UP");
+		  				}
+		  			}
+		  		});
+//		  	clock.setTime(Math.ceil(timeToCountdown/1000));
+		  	//clock.setCountdown(true);
+	  	}
+		
+		
 	});
-	  function fillGameItemDetails(id, gameId,videoGameInstance,gameInstance){
-	  	videoGameInstance.getVideoGameItemDetails(gameId).then(function(result){
+
+	  function setGameName(id,gameItemId,gameItemInstance){
+	  	if(!gameItemsMap[gameItemId]){
+	  		gameItemInstance.getVideoGameItemDetails(gameItemId).then(function(result){
+	  			gameItemsMap[gameItemId] = result[0];
+	  			$('.game-item-name:eq('+(id-1)+')').text(result[0]);
+	  		});	
+	  	}else{
+	  		$('.game-item-name:eq('+(id-1)+')').text(gameItemsMap[gameItemId]);
+	  	}
+	  
+	  }
+	  function fillPowDetails(id, powId, powInstance, gameItemInstance){
+	  	powInstance.getPow(powId).then(function(result){
 							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
 							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
 							//console.log(JSON.stringify(result) + " " +id + " " + gameId);
 							$('.price:eq('+id+')').text("Current Price : "+price+" Ξ");
-							$('.currowner:eq('+id+')').text(result[1]);							
-							$('.card-title:eq('+id+')').text(result[0]);
-							setGameName(id,Number(result[3]),gameInstance);
+							$('.currowner:eq('+(id-1)+')').text(result[3]);							
+							$('.card-title:eq('+id+')').text(result[1]);
+							setGameName(id,Number(result[5]),gameItemInstance);
 							$('.price:eq('+id+')').attr("data-trueval",price);
 							$('.mix:eq('+(id-1)+')').attr("data-order",price);
-							if(id==(maxId+1)){
-
-							    var mixer = mixitup('#container', {
-							        animation: {
-							            duration: 300
-							        }
-							});
-								mixer.sort('random').then(function(state) {    });
-							}
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
-							$('.btn-buy:eq('+id+')').attr("game-id",gameId);
-						});
-	  }
-
-	  function setGameName(id,gameId,gameInstance){
-	  	if(!gamesMap[gameId]){
-	  		gameInstance.getVideoGameDetails(gameId).then(function(result){
-	  			gamesMap[gameId] = result[0];
-	  			$('.game-name:eq('+id+')').text(result[0]);
-	  		});	
-	  	}else{
-	  		$('.game-name:eq('+id+')').text(gamesMap[gameId]);
-	  	}
-	  
-	  }
-	  function fillGameDetails(id, videoGameInstance){
-	  	videoGameInstance.getVideoGameDetails(id).then(function(result){
-							price = Number(web3.fromWei(result[2], "ether").toNumber().toFixed(12));
-							//console.log(web3.fromWei(result[2], "ether").toNumber().toFixed(10));
-							$('.price:eq('+0+')').text(price);
-							$('.currowner:eq('+0+')').text(result[1]);
-							$('.card-title:eq('+0+')').text(result[0]);
-							$('.price:eq('+0+')').attr("data-trueval",price);
-							/*$('.mix:eq('+0+')').attr("data-order",price);*/
-							$('.btn-buy:eq('+0+')').attr("data-id",price);
-							$('.btn-buy:eq('+0+')').attr("game-id",id);
+							$('.btn-buy:eq('+id+')').attr("game-id",powId);
 						});
 	  }
 	});
@@ -293,9 +263,9 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="./index.html#about">FAQ</a>
-					</li>
 
-					<li class="nav-item dropdown active" >
+
+					<li class="nav-item dropdown" >
 						
 						 <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           						Game Rooms
@@ -309,7 +279,7 @@
 
 					        </div>
 					</li>
-					<li class="nav-item dropdown" >
+					<li class="nav-item dropdown active" >
 						
 						 <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           						Power Zones
@@ -337,8 +307,14 @@
 
 	<section id="portfolio" class="text-center">
 		<h2 class="heading">
-			Buy Game Items
+			Pokémon Power Zone
 		</h2>
+		<p>Buy Pokémons with Ethereum </p>
+		<div class="row justify-content-center align-items-center">
+			<div class="container">
+				<div class="flip-counter clock " style=" padding-top:20px;width: 460px;    height: 116px;    margin: 0 auto;"> </div>
+			</div>
+		</div>
 		<br>
 		<div class="btn-group" role="group" aria-label="Basic example">
 			<!--button type="button" class="btn active mixitup-control-active" data-filter="all"> All
@@ -351,37 +327,36 @@
 			</button>
 		</div>
 		<div class="row mixit" id="container">
-			<div id="game-item" class="col-3 game"><a class="games-link" href="index.html">
+			<div id="game-item" class="col-3 game"><a class="games-link" href="POKEMON.html">
       				<div class="card-item">
 					<div class="game-header text-center">
-				        	<h3 class="card-title movie-title"> </h3>
+				        	<h3 class="card-title movie-title"  style="color:#000">Pokémon Game Room</h3>
 
-  					</div><div class="game-name"></div>
+  					</div><div class="game-item-name"></div>
 					<div class=" card-header">
-						<img src="./kotaku/GAMEMESSAGE.png" class="game-img" alt="Game Image Loading...">
+						<img src="./kotaku/POWMessage.png" class="game-img" alt="Game Image Loading...">
 					</div>
                 			<div class="game-content">
                   				<div class="game-info">
                     					
 					                <div class="info-section">
                                 				<label>Price</label>  
-                                				<span class="price" data-trueval="Game Price"></span>
+                                				<span class="price" data-trueval="Game Price" style="color:#000">Pokémon Game Room</span>
                                   			</div>
                 				</div>
-                                                <div class="buy-button">
+                                                <div class="buy-button" style="padding-bottom:5px;">
                         				<button class="btn  btn-primary btn-block btn-buy" type="button" data-id="0.2" game-id="3" id="gameButton">
-                        					Buy Games
+                        					Go to Game Room
                         				</button>
 
           					</div>
           					<div class="info-section">
-                                    				<span style="padding-top:10px;">	</span> <br><span style="font-size: 0.6em;" class="currowner"> </span>
+                                    				<span style="padding-top:10px;margin-top:10px;">  	</span> 
                                     				
                                   		</div>
 	        			</div>
       				</div></a>
     			</div>
-
 
     			
 		</div>
@@ -440,7 +415,8 @@
 								<ul class="row text-center" style="list-style: inside;">
 									<li class="col-3 mx-auto"><a href="https://etherscan.io/address/0xdec14d8f4da25108fd0d32bf2decd9538564d069" class="text-center" target="_blank">Games Contract Link</a></li>
 									<li class="col-3 mx-auto"><a href="https://etherscan.io/address/0xd2606c9bc5efe092a8925e7d6ae2f63a84c5fdea" class="text-center" target="_blank">Game Items Contract Link</a></li>
-									<li class="col-3 mx-auto"><a href="https://etherscan.io/address/0x8c938a36b8e9df3eef9403e0ed251542126e4b57" class="text-center" target="_blank">Power Zone Contract Link</a></li>
+									<li class="col-3 mx-auto"><a href="https://etherscan.io/address/0x8c938a36b8e9df3eef9403e0ed251542126e4b57" class="text-center" target="_blank">CS Power Zone Contract Link</a></li>
+									<li class="col-3 mx-auto"><a href="https://etherscan.io/address/0x8c938a36b8e9df3eef9403e0ed251542126e4b57" class="text-center" target="_blank">Pokémon Power Zone Contract Link</a></li>
 									<li class="col-3 mx-auto"><a href="https://discord.gg/7352gvN" class="text-center"  target="_blank">Discord Link</a></li>
 									<li class="col-3 mx-auto"><a href="mailto:cryptokotaku@gmail.com" class="text-center">Contact Us</a></li>
 								</ul>
@@ -469,6 +445,7 @@
 	<script src="./assets/mixitup.min.js"></script>
 	<script src="./assets/jquery.countTo.js"></script>
 	<script src="./assets/progressbar.min.js"></script>
+	<script src="./assets/flipclock.min.js"></script>
 	<script src="./assets/main.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114858671-1"></script>
