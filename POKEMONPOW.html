@@ -198,14 +198,44 @@
 		
 	});
 
-	  function setGameName(id,gameItemId,gameItemInstance){
-	  	if(!gameItemsMap[gameItemId]){
-	  		gameItemInstance.getVideoGameItemDetails(gameItemId).then(function(result){
-	  			gameItemsMap[gameItemId] = result[0];
-	  			$('.game-item-name:eq('+(id-1)+')').text(result[0]);
+	  function setGameName(id,gameItemId1,gameItemId2,gameItemInstance){
+	  	if(!gameItemsMap[gameItemId1]){
+	  		gameItemInstance.getVideoGameItemDetails(gameItemId1).then(function(result){
+	  			gameItemsMap[gameItemId1] = result[0];
+	  			if(!gameItemsMap[gameItemId2]){
+	  				gameItemInstance.getVideoGameItemDetails(gameItemId2).then(function(result){
+		  				gameItemsMap[gameItemId2] = result[0];
+		  				if(gameItemId1==gameItemId2){
+		  					$('.game-item-name:eq('+(id)+')').text(gameItemsMap[gameItemId1]);
+		  				}else{
+		  					$('.game-item-name:eq('+(id)+')').text(gameItemsMap[gameItemId1]+", "+gameItemsMap[gameItemId2]);
+		  				}
+		  			});
+	  			}else{
+		  				if(gameItemId1==gameItemId2){
+		  					$('.game-item-name:eq('+(id)+')').text(gameItemsMap[gameItemId1]);
+		  				}else{
+		  					$('.game-item-name:eq('+(id)+')').text(gameItemsMap[gameItemId1]+", "+gameItemsMap[gameItemId2]);
+		  				}
+	  			}
 	  		});	
 	  	}else{
-	  		$('.game-item-name:eq('+(id-1)+')').text(gameItemsMap[gameItemId]);
+	  		if(!gameItemsMap[gameItemId2]){
+	  				gameItemInstance.getVideoGameItemDetails(gameItemId2).then(function(result){
+		  				gameItemsMap[gameItemId2] = result[0];
+		  				if(gameItemId1==gameItemId2){
+		  					$('.game-item-name:eq('+(id)+')').text(gameItemsMap[gameItemId1]);
+		  				}else{
+		  					$('.game-item-name:eq('+(id)+')').text(gameItemsMap[gameItemId1]+", "+gameItemsMap[gameItemId2]);
+		  				}
+		  			});
+	  			}else{
+		  				if(gameItemId1==gameItemId2){
+		  					$('.game-item-name:eq('+(id)+')').text(gameItemsMap[gameItemId1]);
+		  				}else{
+		  					$('.game-item-name:eq('+(id)+')').text(gameItemsMap[gameItemId1]+", "+gameItemsMap[gameItemId2]);
+		  				}
+	  			}
 	  	}
 	  
 	  }
@@ -217,7 +247,7 @@
 							$('.price:eq('+id+')').text("Current Price : "+price+" Ξ");
 							$('.currowner:eq('+(id-1)+')').text(result[3]);							
 							$('.card-title:eq('+id+')').text(result[1]);
-							setGameName(id,Number(result[5]),gameItemInstance);
+							setGameName(id,Number(result[5]),Number(result[6]),gameItemInstance);
 							$('.price:eq('+id+')').attr("data-trueval",price);
 							$('.mix:eq('+(id-1)+')').attr("data-order",price);
 							$('.btn-buy:eq('+id+')').attr("data-id",price);
