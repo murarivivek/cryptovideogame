@@ -65,7 +65,7 @@ App = {
   },
 
   initPokemonPowContract: function(finalCallBack) {
-    $.getJSON('./assets/PokemonPow.json', function(data) {
+    $.getJSON('./assets/PokemonPow.json?id=no-cache', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var pokemonPowTokenArtifact = data;
       App.contracts.PokemonPow = TruffleContract(pokemonPowTokenArtifact);
