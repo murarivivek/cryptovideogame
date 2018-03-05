@@ -165,7 +165,7 @@
 						console.log(error);
 						}
 				        var account = accounts[0];
-				      	App.contracts.PowZone.deployed().then(function(instance) {
+				      	App.contracts.PokemonPow.deployed().then(function(instance) {
 					        powInstance = instance;
 					        return powInstance.purchase(gameId, {value: web3.toWei(new web3.BigNumber(price), "ether")}).then(function(result){
 					          	console.log("transaction submitted");
