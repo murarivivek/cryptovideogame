@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="./assets/font-awesome.min.css">
 	<link rel="stylesheet" href="./assets/lightbox.min.css">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/flipclock.css">
 	<script
   	src="https://code.jquery.com/jquery-3.3.1.min.js"
   	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -112,6 +113,23 @@
 				    });
     			});
 	  	});
+
+	  	var timeToCountdown = (new Date("Thu Mar 08 2018 16:00:00 GMT").getTime()) - (new Date().getTime());
+	  	console.log(timeToCountdown);
+	  	if(timeToCountdown>0){
+		  	clock  = $('.flip-counter').FlipClock(Math.ceil(timeToCountdown/1000),{
+		  			countdown: true,
+		  			autostart: true,
+		  			callbacks:{
+		  				interval : function(){
+		  					//console.log("HEYDD");
+		  					//$('.flip-counter').html("TIME UP");
+		  				}
+		  			}
+		  		});
+//		  	clock.setTime(Math.ceil(timeToCountdown/1000));
+		  	//clock.setCountdown(true);
+	  	}
 	});
 	  function fillGameItemDetails(id, gameId,videoGameInstance){
 	  	videoGameInstance.getGameItem(gameId).then(function(result){
@@ -238,6 +256,11 @@
 			Buy Dragon Ball fighters
 		</h2>
 		<br>
+		<div class="row justify-content-center align-items-center">
+			<div class="container">
+				<div class="flip-counter clock " style=" padding-top:20px;width: 460px;    height: 116px;    margin: 0 auto;"> </div>
+			</div>
+		</div>
 		<div class="btn-group" role="group" aria-label="Basic example">
 			<!--button type="button" class="btn active mixitup-control-active" data-filter="all"> All
 			</button-->
@@ -530,9 +553,13 @@
 			<ul class="text-secondary text-left"">	<li class="text-left"">Current Owner of the Game gets 90%</li>
 				<li>Contract creator gets 10%</li>
 				</ul>
-				<p class="text-secondary text-left">Everytime you buy a Game Item (Weapons, characters, maps etc), the price of the token increases by 2X. When the Game Item is sold:</p>
+				<p class="text-secondary text-left">Everytime you buy a Game Item (Weapons, characters, maps etc) in CS, DOTA, PUBG, POKEMON rooms, the price of the token increases by 2X. When the Game Item is sold:</p>
 				<ul class="text-secondary text-left"">	<li>Owner of the Game Item/token gets 80% </li><li class="text-left"">Owner of the Game gets 10%</li>
 				<li>Contract creator gets 10%</li>
+				</ul>
+				<p class="text-secondary text-left">Everytime you buy a Game Item  in DBZ room, the price of the token increases by 1.5X. When the Game Item is sold:</p>
+				<ul class="text-secondary text-left"">	<li>Owner of the Game Item/token gets 84% </li><li class="text-left"">Owner of the Game gets 10%</li>
+				<li>Contract creator gets 6%</li>
 				</ul>
 
 				<p class="text-secondary text-left"> In future, we plan to introduce dividends for Game Items where anytime someone buys Game Mods, Game Item owners and Game owners are given dividends</p>
@@ -624,6 +651,7 @@
 	<script src="./assets/mixitup.min.js"></script>
 	<script src="./assets/jquery.countTo.js"></script>
 	<script src="./assets/progressbar.min.js"></script>
+	<script src="./assets/flipclock.min.js"></script>
 	<script src="./assets/main.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114858671-1"></script>
