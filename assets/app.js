@@ -73,6 +73,19 @@ App = {
       // Set the provider for our contract
       App.contracts.PokemonPow.setProvider(App.web3Provider);
       
+      return App.initGameItemErcContract(finalCallBack);
+    });
+  },
+
+  initGameItemErcContract: function(finalCallBack) {
+    $.getJSON('./assets/GameItemNew.json', function(data) {
+      // Get the necessary contract artifact file and instantiate it with truffle-contract
+      var gameItemErcArtifact = data;
+      App.contracts.GameItemErc = TruffleContract(gameItemErcArtifact);
+
+      // Set the provider for our contract
+      App.contracts.GameItemErc.setProvider(App.web3Provider);
+      
       if(typeof finalCallBack !== 'undefined'){
         return finalCallBack();
       }
