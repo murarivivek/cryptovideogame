@@ -78,7 +78,7 @@ App = {
   },
 
   initGameItemErcContract: function(finalCallBack) {
-    $.getJSON('./assets/GameItemNew.json', function(data) {
+    $.getJSON('./assets/GameItemNew.json?id=no-cache', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var gameItemErcArtifact = data;
       App.contracts.GameItemErc = TruffleContract(gameItemErcArtifact);
